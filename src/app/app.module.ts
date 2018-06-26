@@ -8,12 +8,14 @@ import { MyApp } from './app.component';
 import HomePage from '../pages/home/home';
 import LoginPage from '../pages/login';
 import DittoListPage from '../pages/ditto_list';
+import ProfilePage from '../pages/profile';
 
 const list = [
   MyApp,
   HomePage,
   LoginPage,
-  DittoListPage
+  DittoListPage,
+  ProfilePage
 ];
 
 @NgModule({

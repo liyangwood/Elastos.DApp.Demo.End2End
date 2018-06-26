@@ -17,7 +17,22 @@ export default class extends Base {
                 meta : {},
                 path : path+'/'+n
             });
-        })
+        });
+
+        if(path !== 'root'){
+            rs.push({
+                name : 'readme.txt',
+                type : 'file',
+                ext : 'txt',
+                content : 'Hello world'
+            }, {
+                name : 'moive.mp4',
+                type : 'file',
+                ext : 'mp4',
+                
+            });
+        }
+
         return Test.result(rs);
     }
 

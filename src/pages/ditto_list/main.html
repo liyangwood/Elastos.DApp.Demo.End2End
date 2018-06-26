@@ -1,4 +1,4 @@
-<ion-header large>
+<ion-header>
   <ion-navbar>    
       
     <ion-title>Ditto List</ion-title>
@@ -14,7 +14,8 @@
 <ion-content class="app-page">
   <ion-list>
     <button ion-item *ngFor="let item of list" (click)="goToDir(item.path)">
-      <ion-icon name="ios-folder-outline"></ion-icon>
+      <ion-icon *ngIf="item.type === 'file'" name="ios-document-outline"></ion-icon>
+      <ion-icon *ngIf="item.type === 'dir'" name="ios-folder-outline"></ion-icon>
       <span style="position:relative;left:5px;top:-2px;">{{item.name}}</span>
     </button>
   </ion-list>
