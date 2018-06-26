@@ -8,6 +8,10 @@ export default class extends Base {
     this.address = address;
   }
 
+  getAddress(){
+    return this.address;
+  }
+
   // get account info
   getInfo(){
     // TODO

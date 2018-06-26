@@ -1,0 +1,22 @@
+<ion-header large>
+  <ion-navbar>    
+      
+    <ion-title>Ditto List</ion-title>
+    <ion-buttons end>
+      <button *ngIf="showUpBtn" (click)="goUp()" ion-button clear icon-only style="">    
+        <ion-icon name="arrow-dropup"></ion-icon>    
+      </button>      
+    </ion-buttons>
+    
+  </ion-navbar>    
+</ion-header>
+
+<ion-content class="app-page">
+  <ion-list>
+    <button ion-item *ngFor="let item of list" (click)="goToDir(item.path)">
+      <ion-icon name="ios-folder-outline"></ion-icon>
+      <span style="position:relative;left:5px;top:-2px;">{{item.name}}</span>
+    </button>
+  </ion-list>
+  
+</ion-content>

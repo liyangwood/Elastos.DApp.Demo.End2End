@@ -1,46 +1,37 @@
 import Base from './Base';
+import Test from '../utility/Test';
+import * as _ from 'lodash';
 
 
 export default class extends Base {
 
     // fetch the file list with path
-    fetchList(path: string): any{
+    async fetchList(path: string): Promise<any[]>{
         // TODO
 
-        return [
-            {
-                name : 'abc',
+        const rs = [];
+        _.each(_.range(10), (n)=>{
+            rs.push({
+                name : path.replace(/\//g, '-')+'-'+n,
                 type : 'dir',
-                meta : {}
-            },
-            {
-                name : 'def',
-                type : 'dir'
-            },
-            {
-                name : 'readme.md',
-                type : 'file',
-                ext : 'md'
-            },
-            {
-                name : 'film.avi',
-                type : 'file',
-                ext : 'avi'
-            }
-        ];
+                meta : {},
+                path : path+'/'+n
+            });
+        })
+        return Test.result(rs);
     }
 
     // create dir with path
     createFoler(path: string): any{
         // TODO
 
-        return [
-            {
-                name : 'new_folder',
-                type : 'dir'
-            },
-            ...this.fetchList('dir')
-        ];
+        // return [
+        //     {
+        //         name : 'new_folder',
+        //         type : 'dir'
+        //     },
+        //     ...this.fetchList('dir')
+        // ];
     }
 
     // rename a folder or file
