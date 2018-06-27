@@ -1,19 +1,19 @@
 <ion-header>
   <ion-navbar>    
-      
-    <ion-title>Ditto List</ion-title>
-    <ion-buttons end>
+    <ion-buttons start>
       <button *ngIf="showUpBtn" (click)="goUp()" ion-button clear icon-only style="">    
-        <ion-icon name="arrow-dropup"></ion-icon>    
+        <ion-icon name="arrow-dropleft"></ion-icon>    
       </button>      
-    </ion-buttons>
+    </ion-buttons>  
+    <ion-title>Ditto List</ion-title>
+    
     
   </ion-navbar>    
 </ion-header>
 
 <ion-content class="app-page">
   <ion-list>
-    <button ion-item *ngFor="let item of list" (click)="goToDir(item.path)">
+    <button ion-item *ngFor="let item of list" (click)="clickItem(item)">
       <ion-icon *ngIf="item.type === 'file'" name="ios-document-outline"></ion-icon>
       <ion-icon *ngIf="item.type === 'dir'" name="ios-folder-outline"></ion-icon>
       <span style="position:relative;left:5px;top:-2px;">{{item.name}}</span>

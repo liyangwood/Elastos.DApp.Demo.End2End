@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { LoadingController, NavController } from 'ionic-angular';
+import { LoadingController, NavController, NavParams } from 'ionic-angular';
 
 import DIDService from '../service/DIDService';
 import DittoService from '../service/DittoService';
@@ -18,7 +18,8 @@ export default class Page {
 
   constructor(
     public loadingCtrl: LoadingController,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    public navParam: NavParams
   ){
     this.buildDIDService();
     this.buildDittoService();

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import Base from '../Base';
+import DittoDetailPage from '../ditto_detail';
 
 @Component({
   selector: 'page-ditto_list',
@@ -31,6 +32,19 @@ export default class Page extends Base {
 
       await this.goToDir(path);
     }
+  }
+
+  async clickItem(item){
+    if(item.type === 'dir'){
+      await this.goToDir(item.path);
+    }
+    else{
+      await this.goToFile(item);
+    }
+  }
+
+  async goToFile(item){
+    this.navCtrl.push(DittoDetailPage, item);
   }
 
 }

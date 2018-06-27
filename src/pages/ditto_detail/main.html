@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-navbar>    
+    <ion-title>{{file.name}}</ion-title>
+  </ion-navbar>    
+</ion-header>
+
+<ion-content class="app-page" padding>
+  <section *ngIf="file.ext==='txt'" [innerHtml]="file.src"></section>
+
+  <video style="width:100%;" *ngIf="file.ext==='mp4'" controls [src]="file.src"></video>
+
+  
+</ion-content>

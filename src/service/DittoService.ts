@@ -99,4 +99,19 @@ export default class extends Base {
 
         return true;
     }
+
+    async fetchFileContent(item): Promise<any>{
+        const ext = item.ext;
+        if(ext === 'txt'){
+            return Test.result(`
+                <h2>Test File</h2>
+                <p>This is a test file content</p>
+                <b>Hello world</b>
+            `);
+        }
+        else if(ext === 'mp4'){
+        
+            return Test.result('assets/test.mp4');
+        }
+    }
 }
