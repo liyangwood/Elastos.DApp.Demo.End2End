@@ -23,6 +23,7 @@ export default class Page {
   ){
     this.buildDIDService();
     this.buildDittoService();
+    this.buildWalletService();
     this.userService = new UserService();
 
     this._init();
@@ -56,13 +57,13 @@ export default class Page {
     }
     return this.dittoService;
   }
-  // protected buildWalletService(address: string): WalletService{
-  //   if(!this.walletService || this.walletService.getAddress() !== address){
-  //     this.walletService = new WalletService(address);
-  //   }
+  protected buildWalletService(): WalletService{
+    if(!this.walletService){
+      this.walletService = new WalletService();
+    }
 
-  //   return this.walletService;
-  // }
+    return this.walletService;
+  }
 
   async ionViewDidLoad(){
     if(this.userService.isLogin){

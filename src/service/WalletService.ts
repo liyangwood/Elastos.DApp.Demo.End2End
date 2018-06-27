@@ -1,15 +1,22 @@
 import Base from './Base';
+import UserService from './UserService';
+import * as _ from 'lodash';
 
 export default class extends Base {
-  private address: string;
+  
+  async importNewAddress(address){
+    const us = new UserService();
+    const info = {
+      address,
+      blance : _.random(100, 500)
+    }
 
-  constructor(address: string){
-    super();
-    this.address = address;
+    us.setWalletAddress(info);
+    return info;
   }
 
   getAddress(){
-    return this.address;
+    
   }
 
   // get account info
