@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-navbar>    
+      <ion-title>Send Ela</ion-title>
+    </ion-navbar>    
+  </ion-header>
+  
+  <ion-content class="app-page">
+    
+    <div class="app-padding">
+      <p>Address : {{info.address}}</p>
+      <p>Blance : {{info.blance}}</p>
+    </div>
+
+    <div class="app-h-padding">
+      <h5>Send Ela</h5>
+    </div>
+    <ion-list>
+      <ion-item>
+        <ion-input [(ngModel)]="target.address" type="test" placeholder="Input target address"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input [(ngModel)]="send_amount" type="number" placeholder="Input send amount"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input [(ngModel)]="target.memo" type="test" placeholder="Input send request memo"></ion-input>
+      </ion-item>
+    </ion-list>
+    <div class="app-padding">
+      <button ion-button block color="secondary" (click)="send()">Send</button>
+    </div>
+    
+    
+    
+    
+    
+  </ion-content>

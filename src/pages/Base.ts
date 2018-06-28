@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 
-import { LoadingController, NavController, NavParams } from 'ionic-angular';
+import { 
+  LoadingController, NavController, NavParams, 
+  AlertController, ToastController 
+} from 'ionic-angular';
 
 import DIDService from '../service/DIDService';
 import DittoService from '../service/DittoService';
@@ -19,7 +22,9 @@ export default class Page {
   constructor(
     public loadingCtrl: LoadingController,
     public navCtrl: NavController,
-    public navParam: NavParams
+    public navParam: NavParams,
+    public alertCtrl: AlertController,
+    public toastCtrl: ToastController
   ){
     this.buildDIDService();
     this.buildDittoService();
@@ -83,4 +88,22 @@ export default class Page {
 
   async ionViewDidLoad_AfterLogin(){}
   async ionViewDidLoad_BeforeLogin(){}
+
+  protected warning(msg){
+    const alert = this.alertCtrl.create({
+      title : 'Warning',
+      subTitle : msg,
+      buttons : ['Dismiss']
+    });
+    alert.present();
+  }
+
+  protected toast(msg){
+    const toast = this.toastCtrl.create({
+      message : msg,
+      duration : 3000,
+      position : 'bottom'
+    });
+    toast.present();
+  }
 };

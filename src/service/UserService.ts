@@ -12,6 +12,7 @@ export default class extends Base {
 
       this.isLogin = true;
       this.current = user;
+
     }
   }
 
@@ -47,6 +48,7 @@ export default class extends Base {
     }
 
     this.current.wallet.push(wallet_info);
+    console.log(333, this.current.wallet)
     this.save();
   }
 
@@ -54,5 +56,8 @@ export default class extends Base {
     return _.find(this.current.wallet, (item)=>{
       return item.address === address;
     });
+  }
+  getWalletList(){
+    return this.current.wallet;
   }
 }

@@ -11,6 +11,7 @@ import DittoListPage from '../pages/ditto_list';
 import ProfilePage from '../pages/profile';
 import DittoDetailPage from '../pages/ditto_detail';
 import WalletInfoPage from '../pages/wallet_info';
+import WalletSendPage from '../pages/wallet_send';
 
 const list = [
   MyApp,
@@ -19,7 +20,8 @@ const list = [
   DittoListPage,
   ProfilePage,
   DittoDetailPage,
-  WalletInfoPage
+  WalletInfoPage,
+  WalletSendPage
 ];
 
 @NgModule({

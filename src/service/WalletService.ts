@@ -4,28 +4,13 @@ import * as _ from 'lodash';
 
 export default class extends Base {
   
-  async importNewAddress(address){
-    const us = new UserService();
-    const info = {
-      address,
-      blance : _.random(100, 500)
-    }
-
-    us.setWalletAddress(info);
-    return info;
-  }
-
-  getAddress(){
-    
-  }
-
   // get account info
-  getInfo(){
+  async getInfo(address: string){
     // TODO
 
     return {
-      address : 'abcde',
-      balance : 200.02
+      address,
+      blance : _.random(100, 500)
     };
   }
 
@@ -36,9 +21,23 @@ export default class extends Base {
     return true;
   }
 
-  async send(targetAddress: string, amount: number, memo: string): Promise<any>{
+  // send ela to another address
+  async send(source:any, target:any, amount): Promise<any>{
     // TODO
 
-    return true;
+    const s_address = source.address;
+    const s_amount = source.amount;
+
+    const t_address = target.address;
+    const t_memo = target.memo;
+
+    if(amount > s_amount){
+      throw 'not enough ela to send';
+    }
+
+    return {
+      ...source,
+      amount : s_amount-amount
+    } 
   }
 }

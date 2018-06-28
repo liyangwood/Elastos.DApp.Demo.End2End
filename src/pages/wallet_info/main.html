@@ -5,18 +5,19 @@
 </ion-header>
 
 <ion-content class="app-page">
+  <div class="app-padding" style="padding: 0 15px;">
+    <h4>Ela Address</h4>
+  </div>
   <ion-list>
-    <ion-item>
-      <ion-label color="primary" stacked>Ela Address</ion-label>
-      <ion-input type="text" disabled >aabbcc</ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label color="primary" stacked>Blance</ion-label>
-      <ion-input type="text" disabled >120</ion-input>
-    </ion-item>
+    <button ion-item *ngFor="let item of wallet_list" (click)="goToSendPage(item)">
+      {{item.address}}
+    </button>
   </ion-list>
 
-  <button ion-button block color="secondary" (click)="addNewAddress()">Import New Address</button>
+  <div class="app-padding">
+    <button ion-button block color="secondary" (click)="showAddPrompt()">Import New Address</button>
+  </div>
+  
   
   
   
