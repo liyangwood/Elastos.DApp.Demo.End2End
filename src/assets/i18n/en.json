@@ -1,0 +1,13 @@
+{
+  "tab" : {
+    "0001" : "Ditto",
+    "0002" : "Wallet",
+    "0003" : "ME"
+  },
+
+  "setting" : {
+    "0001" : "Language",
+    "0002" : "set language"
+  }
+  
+}

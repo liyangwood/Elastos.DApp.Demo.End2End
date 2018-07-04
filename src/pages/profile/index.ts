@@ -14,4 +14,32 @@ export default class Page extends Base {
     location.reload();
   }
 
+  showLangActionSheet(){
+    const actionSheet = this.actionSheetCtrl.create({
+      title : this.translateService.get('setting.0002').value,
+      buttons: [
+        {
+          text : 'English',
+          handler : ()=>{
+            this.changeLang('en');
+          }
+        },
+        {
+          text : '中文',
+          handler : ()=>{
+            this.changeLang('zh-cn')
+          }
+        }
+      ]
+    });
+
+    actionSheet.present();
+  }
+
+  changeLang(lang){
+    this.translateService.use(lang);
+    localStorage.setItem('current_lang', lang);
+    location.reload(true);
+  }
+
 }

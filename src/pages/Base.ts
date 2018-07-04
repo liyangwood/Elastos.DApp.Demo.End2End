@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 
 import { 
   LoadingController, NavController, NavParams, 
-  AlertController, ToastController 
+  AlertController, ToastController, ActionSheetController
 } from 'ionic-angular';
+import { TranslateService } from '@ngx-translate/core';
 
 import DIDService from '../service/DIDService';
 import DittoService from '../service/DittoService';
@@ -24,7 +25,9 @@ export default class Page {
     public navCtrl: NavController,
     public navParam: NavParams,
     public alertCtrl: AlertController,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public translateService: TranslateService,
+    public actionSheetCtrl: ActionSheetController
   ){
     this.buildDIDService();
     this.buildDittoService();
@@ -90,6 +93,7 @@ export default class Page {
   async ionViewDidLoad_BeforeLogin(){}
 
   protected warning(msg){
+
     const alert = this.alertCtrl.create({
       title : 'Warning',
       subTitle : msg,
