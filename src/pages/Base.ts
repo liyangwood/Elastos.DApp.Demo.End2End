@@ -11,6 +11,8 @@ import DittoService from '../service/DittoService';
 import WalletService from '../service/WalletService';
 import UserService from '../service/UserService';
 
+import * as _ from 'lodash';
+
 @Component({})
 export default class Page {
   private _loading;
@@ -109,5 +111,9 @@ export default class Page {
       position : 'bottom'
     });
     toast.present();
+  }
+
+  protected getLang(key){
+    return _.get(this.translateService.get(key), 'value');
   }
 };

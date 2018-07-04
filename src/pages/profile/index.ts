@@ -16,7 +16,7 @@ export default class Page extends Base {
 
   showLangActionSheet(){
     const actionSheet = this.actionSheetCtrl.create({
-      title : this.translateService.get('setting.0002').value,
+      title : this.getLang('setting.0002'),
       buttons: [
         {
           text : 'English',
