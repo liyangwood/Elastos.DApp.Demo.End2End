@@ -86,5 +86,106 @@ export default class Page extends Base {
     fs.readAsArrayBuffer(elem.files[0]);
   }
 
+  async addFolder(){
+    const prompt = this.alertCtrl.create({
+      title: 'Add Folder',
+      message: "Enter a folder name",
+      inputs: [
+        {
+          name: 'title',
+          placeholder: 'name'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: (d)=>{}
+        },
+        {
+          text: 'Add',
+          handler: async (d)=>{
+            const name = d.title;
+            if(!name){
+              this.warning('invalid name');
+              return false;
+            }
+            this.showLoading();
+            try{
+              await this.ipfsService.addDir(this.path+'/'+name);
+              await this.getListByPath(this.path);
+            }catch(e){
+              this.warning(e);
+            }
+            this.hideLoading();
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  async showItemMenu(item){
+    console.log(item);
+    const actionSheet = this.actionSheetCtrl.create({
+      title : 'Operation',
+      buttons: [
+        {
+          text : 'rename',
+          handler : ()=>{
+            const prompt = this.alertCtrl.create({
+              title: 'Rename',
+              message: "Enter a new name",
+              inputs: [
+                {
+                  name: 'title',
+                  placeholder: 'new name'
+                },
+              ],
+              buttons: [
+                {
+                  text: 'Cancel',
+                  handler: (d)=>{}
+                },
+                {
+                  text: 'Confirm',
+                  handler: async (d)=>{
+                    const name = d.title;
+                    if(!name){
+                      this.warning('invalid name');
+                      return false;
+                    }
+                    this.showLoading();
+                    try{
+                      await this.ipfsService.getAPI().files.mv(this.path+'/'+item.name, this.path+'/'+name);
+                      await this.getListByPath(this.path);
+                    }catch(e){
+                      this.warning(e);
+                    }
+                    this.hideLoading();
+                  }
+                }
+              ]
+            });
+            prompt.present();
+          }
+        },
+        {
+          text : 'delete',
+          role : 'destructive',
+          handler : ()=>{
+            this.showLoading();
+            this.ipfsService.removeByPath(this.path+'/'+item.name).then(async ()=>{
+              await this.getListByPath(this.path);
+              this.hideLoading();
+            });
+
+          }
+        }
+      ]
+    });
+
+    actionSheet.present();
+  }
+
   
 }

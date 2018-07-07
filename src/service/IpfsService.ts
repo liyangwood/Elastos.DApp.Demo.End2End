@@ -4,7 +4,8 @@ import ipfsAPI from 'ipfs-api';
 declare var Buffer;
 
 const config = {
-  url : '/ip4/127.0.0.1/tcp/5001'
+  url : '/ip4/192.144.145.63/tcp/5001'
+  // url : '/ip4/127.0.0.1/tcp/5001'
 };
 
 export default class extends Base {
@@ -48,5 +49,13 @@ export default class extends Base {
     return await this.api.files.write(path, Buffer.from(content), {create: true});
 
 
+  }
+
+  async addDir(path){
+    return await this.api.files.mkdir(path);
+  }
+
+  async removeByPath(path){
+    return await this.api.files.rm(path, {recursive: true});
   }
 }
