@@ -5,6 +5,7 @@ import DittoPage from '../ditto_list';
 import LoginPage from '../login';
 import ProfilePage from '../profile';
 import WalletInfoPage from '../wallet_info';
+import IpfsInfoPage from '../ipfs_info';
 
 @Component({
   selector: 'page-home',
@@ -14,6 +15,7 @@ export default class Page extends Base {
   private DittoPage;
   private ProfilePage;
   private WalletInfoPage;
+  private IpfsInfoPage;
 
 
 
@@ -21,6 +23,7 @@ export default class Page extends Base {
     this.DittoPage = DittoPage;
     this.ProfilePage = ProfilePage;
     this.WalletInfoPage = WalletInfoPage;
+    this.IpfsInfoPage = IpfsInfoPage;
   }
   
   async ionViewDidLoad_BeforeLogin(){

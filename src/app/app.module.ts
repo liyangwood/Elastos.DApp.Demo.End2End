@@ -7,6 +7,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import { HttpModule } from '@angular/http';
+import { HTTP } from '@ionic-native/http';
 
 import { MyApp } from './app.component';
 import HomePage from '../pages/home/home';
@@ -16,6 +17,8 @@ import ProfilePage from '../pages/profile';
 import DittoDetailPage from '../pages/ditto_detail';
 import WalletInfoPage from '../pages/wallet_info';
 import WalletSendPage from '../pages/wallet_send';
+import IpfsInfoPage from '../pages/ipfs_info';
+import FileViewPage from '../pages/file_view';
 
 const list = [
   MyApp,
@@ -25,7 +28,9 @@ const list = [
   ProfilePage,
   DittoDetailPage,
   WalletInfoPage,
-  WalletSendPage
+  WalletSendPage,
+  IpfsInfoPage,
+  FileViewPage
 ];
 
 export const createTranslateLoader = function(http: HttpClient){
@@ -52,6 +57,7 @@ export const createTranslateLoader = function(http: HttpClient){
   providers: [
     StatusBar,
     SplashScreen,
+    HTTP,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

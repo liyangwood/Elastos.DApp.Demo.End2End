@@ -14,6 +14,7 @@ export default class Page extends Base {
   async ionViewDidLoad_AfterLogin(){
 
     await this.goToDir('root');
+
   }
 
   async goToDir(path){
