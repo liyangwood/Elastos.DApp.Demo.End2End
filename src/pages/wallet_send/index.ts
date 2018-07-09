@@ -28,21 +28,21 @@ export default class Page extends Base {
   }
 
   async send(){
-    try{
-      const res = await this.walletService.send({
-        address : this.info.address,
-        amount : this.info.blance
-      }, {
-        address : this.target.address,
-        memo : this.target.memo
-      }, this.send_amount);
-      this.toast('send success');
+    // try{
+    //   const res = await this.walletService.send({
+    //     address : this.info.address,
+    //     amount : this.info.blance
+    //   }, {
+    //     address : this.target.address,
+    //     memo : this.target.memo
+    //   }, this.send_amount);
+    //   this.toast('send success');
 
-      this.info.blance = res.amount;
-      this.reset();
-    }catch(e){
-      this.warning(e);
-    }
+    //   this.info.blance = res.amount;
+    //   this.reset();
+    // }catch(e){
+    //   this.warning(e);
+    // }
   
   }
 

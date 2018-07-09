@@ -3,7 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import Base from '../Base';
 import WalletSendPage from '../wallet_send';
 
-
+console.log('111111111111');
 @Component({
   selector: 'page-wallet_info',
   templateUrl: 'main.html'
@@ -37,13 +37,17 @@ export default class Page extends Base {
   }
 
   async addNewAddress(address){
-    try{
-      const info = await this.walletService.getInfo(address);
-      this.userService.setWalletAddress(info);
-      this.syncWallet();
-    }catch(e){
-      this.warning(e);
-    }
+    // try{
+    //   const info = await this.walletService.getInfo(address);
+    //   this.userService.setWalletAddress(info);
+    //   this.syncWallet();
+    // }catch(e){
+    //   this.warning(e);
+    // }
+//     this.walletService.getDIDList((a,b,c)=>{
+// console.log(a,b,c);
+// alert(a+'\n'+b+'\n'+c);
+//     });
   }
 
   async ionViewDidLoad_AfterLogin(){
