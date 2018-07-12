@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.Iterator;
 import android.util.Log;
 
 import io.ionic.starter.MyUtil;
@@ -60,7 +62,7 @@ public class Wallet extends CordovaPlugin {
         if (mMasterWalletList != null) {
             mCurrentMasterWallet = mMasterWalletList.get(0);
             if (mCurrentMasterWallet != null) {
-                mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet, mRootPath);
+                // mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet, mRootPath);
             }
         }
         else {
@@ -72,7 +74,7 @@ public class Wallet extends CordovaPlugin {
       Log.d("JS-Wallet", "initDidManager=========1====mRootPath="+mRootPath);
         if (mDidManager == null && mCurrentMasterWallet != null) {
             Log.d("JS-Wallet", "initDidManager=========2====mRootPath="+mRootPath);
-            mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet, mRootPath);
+            // mDidManager = IdManagerFactory.CreateIdManager(mCurrentMasterWallet, mRootPath);
         }
     }
 
@@ -102,6 +104,9 @@ public class Wallet extends CordovaPlugin {
                   return true;
               case "importWalletWithKeystore":
                   this.importWalletWithKeystore(args, callbackContext);
+                  return true;
+              case "getAllCreatedSubWallets":
+                  this.getAllCreatedSubWallets(args, callbackContext);
                   return true;
               case "importWalletWithMnemonic":
                   this.importWalletWithMnemonic(args, callbackContext);
@@ -256,7 +261,7 @@ public class Wallet extends CordovaPlugin {
             if (subWallet != null) {
                 mSubWalletMap.put(args.getString(0), subWallet);
                 callbackContext.success(args.getString(0));
-                Log.i("JS-Wallet", "createSubWallet==============2");
+                Log.i("JS-Wallet", "createSubWallet==============2, subWallet============["+subWallet+"]");
             }
             else {
                 callbackContext.error("CreateSubWallet failed.");
@@ -435,6 +440,17 @@ public class Wallet extends CordovaPlugin {
 
         if (mCurrentMasterWallet != null) {
             mMasterWalletList.add(mCurrentMasterWallet);
+
+            mSubWalletMap.clear();
+            ArrayList<ISubWallet> list = mCurrentMasterWallet.GetAllSubWallets();
+            Log.i("JS-Wallet", "importWalletWithKeystore==============1, subwallet.list.size="+list.size());
+            for (int i = 0; i < list.size(); i++) {
+                ISubWallet subWallet = list.get(i);
+                if (subWallet != null) {
+                    mSubWalletMap.put(subWallet.GetChainId(), subWallet);
+                }
+            }
+
             initDidManager();
             callbackContext.success();
         }
@@ -443,9 +459,29 @@ public class Wallet extends CordovaPlugin {
         }
     }
 
+    public void getAllCreatedSubWallets(JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (mCurrentMasterWallet != null) {
+            Set<String> keys = mSubWalletMap.keySet();
+            Iterator<String> iter = keys.iterator();
+
+            JSONObject jsonObject = new JSONObject();
+            while(iter.hasNext()){
+                String chainID = iter.next();
+                Log.i("JS-Wallet", "getAllCreatedSubWallets=========================chainID=["+chainID+"]");
+                jsonObject.put(chainID, chainID);
+            }
+
+            callbackContext.success(jsonObject);
+            return;
+        }
+
+        callbackContext.success(parseOneParam("createdSubWallets", null));
+    }
+
     //ImportWalletWithMnemonic(String masterWalletId, String mnemonic, String phrasePassword ,String payPassWord, String language)
     public void importWalletWithMnemonic(JSONArray args, CallbackContext callbackContext) throws JSONException {
         try {
+            Log.i("JS-Wallet", "importWalletWithMnemonic======================================1");
             mCurrentMasterWallet = mWalletManager.ImportWalletWithMnemonic(args.getString(0), args.getString(1), args.getString(2)
                     , args.getString(3), args.getString(4));
         }
@@ -455,8 +491,21 @@ public class Wallet extends CordovaPlugin {
             return;
         }
 
+        Log.i("JS-Wallet", "importWalletWithMnemonic======================================2");
         if (mCurrentMasterWallet != null) {
+            Log.i("JS-Wallet", "importWalletWithMnemonic======================================3");
             mMasterWalletList.add(mCurrentMasterWallet);
+
+            mSubWalletMap.clear();
+            ArrayList<ISubWallet> list = mCurrentMasterWallet.GetAllSubWallets();
+            Log.i("JS-Wallet", "importWalletWithMnemonic==============1, subwallet.list.size="+list.size());
+            for (int i = 0; i < list.size(); i++) {
+                ISubWallet subWallet = list.get(i);
+                if (subWallet != null) {
+                    mSubWalletMap.put(subWallet.GetChainId(), subWallet);
+                }
+            }
+
             initDidManager();
             callbackContext.success();
         }
@@ -704,6 +753,7 @@ public class Wallet extends CordovaPlugin {
     public void sendRawTransaction(JSONArray args, CallbackContext callbackContext) throws JSONException {
         //The first parameter is [chainID]
         ISubWallet subWallet = mSubWalletMap.get(args.getString(0));
+        Log.i("JS-Wallet", "sendRawTransaction==============1, id="+args.getString(0));
         if (subWallet == null) {
             callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;
@@ -786,21 +836,8 @@ public class Wallet extends CordovaPlugin {
             callbackContext.success(parseOneParam(ERRORCODE, "The chainID must be ELA."));
             return;
         }
-                                //mSubWalletMap.get(args.getString(0))
-        ISubWallet baseWallet = mSubWalletMap.get(args.getString(0));
-        IMainchainSubWallet subWallet;
-        
-        if(baseWallet instanceof IMainchainSubWallet){
-            subWallet = (IMainchainSubWallet)baseWallet;
-            Log.i("JS-Wallet", "Elastos createDepositTransaction instanceof IMainchainSubWallet 1, id="+args.getString(0));
-        }else{
-            Log.i("JS-Wallet", "Elastos createDepositTransaction not instanceof IMainchainSubWallet 1, id="+args.getString(0));
-            return ;
-        }
 
-        //IMainchainSubWallet subWallet = (IMainchainSubWallet)mSubWalletMap.get(args.getString(0));
-
-
+        IMainchainSubWallet subWallet = (IMainchainSubWallet)mSubWalletMap.get(args.getString(0));
         if (subWallet == null) {
             callbackContext.error("Don't have the subWallet: ["+args.getString(0)+"], please check.");
             return;

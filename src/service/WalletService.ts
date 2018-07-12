@@ -18,7 +18,10 @@ export default class WalletService extends Base {
   public static PAGECOUNT = 100;
 
   _init(){
+    console.log(11111);
     this.wallet = cordova.plugins.Wallet;
+    console.log(22222);
+    
   }
 
   /**通过android log 打印数据*/

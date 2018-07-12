@@ -1,6 +1,14 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
   {
+    "id": "ElaWallet.Wallet",
+    "file": "plugins/ElaWallet/www/Wallet.js",
+    "pluginId": "ElaWallet",
+    "clobbers": [
+      "cordova.plugins.Wallet"
+    ]
+  },
+  {
     "id": "cordova-plugin-file.DirectoryEntry",
     "file": "plugins/cordova-plugin-file/www/DirectoryEntry.js",
     "pluginId": "cordova-plugin-file",
@@ -247,19 +255,12 @@ module.exports = [
     "clobbers": [
       "window.StatusBar"
     ]
-  },
-  {
-    "id": "ElaWallet.Wallet",
-    "file": "plugins/ElaWallet/www/Wallet.js",
-    "pluginId": "ElaWallet",
-    "clobbers": [
-      "cordova.plugins.Wallet"
-    ]
   }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
+  "ElaWallet": "1.0.0",
   "cordova-plugin-file": "6.0.1",
   "cordova-plugin-advanced-http": "1.11.1",
   "cordova-plugin-device": "2.0.2",
@@ -267,8 +268,7 @@ module.exports.metadata =
   "cordova-plugin-ionic-webview": "1.1.19",
   "cordova-plugin-splashscreen": "5.0.2",
   "cordova-plugin-statusbar": "2.4.2",
-  "cordova-plugin-whitelist": "1.3.3",
-  "ElaWallet": "1.0.0"
+  "cordova-plugin-whitelist": "1.3.3"
 };
 // BOTTOM OF METADATA
 });

@@ -3,7 +3,6 @@ import { Component, ViewChild } from '@angular/core';
 import Base from '../Base';
 import WalletSendPage from '../wallet_send';
 
-console.log('111111111111');
 @Component({
   selector: 'page-wallet_info',
   templateUrl: 'main.html'
@@ -37,6 +36,10 @@ export default class Page extends Base {
   }
 
   async addNewAddress(address){
+    const wallet = this.walletService.getWalletId((a, b, c)=>{
+      console.log(33333);
+      console.log(a, b, c);
+    })
     // try{
     //   const info = await this.walletService.getInfo(address);
     //   this.userService.setWalletAddress(info);
