@@ -20,7 +20,7 @@ export default class WalletService extends Base {
   _init(){
     console.log(11111);
     this.wallet = cordova.plugins.Wallet;
-    console.log(22222);
+    console.log(22222, cordova.plugins.Wallet);
     
   }
 

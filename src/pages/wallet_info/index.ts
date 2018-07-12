@@ -36,6 +36,7 @@ export default class Page extends Base {
   }
 
   async addNewAddress(address){
+    console.log(11111111, this.walletService.getWalletId)
     const wallet = this.walletService.getWalletId((a, b, c)=>{
       console.log(33333);
       console.log(a, b, c);
@@ -54,7 +55,8 @@ export default class Page extends Base {
   }
 
   async ionViewDidLoad_AfterLogin(){
-    this.syncWallet();
+    //this.syncWallet();
+    this.walletService.start();
   }
 
   syncWallet(){
