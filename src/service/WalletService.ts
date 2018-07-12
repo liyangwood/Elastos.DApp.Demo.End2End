@@ -18,6 +18,13 @@ export default class WalletService extends Base {
   public static PAGECOUNT = 100;
 
   _init(){
+    if(typeof cordova === 'undefined'){
+      window['cordova'] = {
+        plugins : {
+          Wallet : ()=>{}
+        }
+      };
+    }
     console.log(11111);
     this.wallet = cordova.plugins.Wallet;
     console.log(22222, cordova.plugins.Wallet);

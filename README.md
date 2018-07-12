@@ -15,11 +15,12 @@ npm run build
 ```
 
 ## Dependend service info
-* owncloud http://192.144.145.63:8000/login admin/111111
-* IPFS http://192.144.145.63:5001/ipfs/QmQLXHs7K98JNQdWrBB2cQLJahPhmupbDjRuH1b9ibmwVa
+* ditto server : http://192.144.145.63:8000/login admin/111111
+* IPFS : http://192.144.145.63:5001/ipfs/QmQLXHs7K98JNQdWrBB2cQLJahPhmupbDjRuH1b9ibmwVa
 
 ## Trinity apk 
 * http://192.144.145.63:8000/apps/files/?dir=/Trinity&fileid=18
+* there are 2 files there. one is Trinity apk. the other is the demo epk file.
 
 ## How to run Trinty with demo (will update later)
 * download Trinity apk and install

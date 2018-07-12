@@ -56,7 +56,7 @@ export default class Page extends Base {
 
   async ionViewDidLoad_AfterLogin(){
     //this.syncWallet();
-    this.walletService.start();
+    // this.walletService.start();
   }
 
   syncWallet(){
