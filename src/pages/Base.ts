@@ -6,6 +6,10 @@ import {
 } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { HTTP } from '@ionic-native/http';
+import { Platform } from 'ionic-angular';
+import { FileChooser } from '@ionic-native/file-chooser';
+import { File } from '@ionic-native/file';
+import { FilePath } from '@ionic-native/file-path';
 
 import DIDService from '../service/DIDService';
 import DittoService from '../service/DittoService';
@@ -37,7 +41,11 @@ export default class Page {
     public _http: HTTP,
     public modalCtrl: ModalController,
     public viewCtrl: ViewController,
-    public _sanitizer: DomSanitizer
+    public _sanitizer: DomSanitizer,
+    public _plt: Platform,
+    public _fileChooser: FileChooser,
+    public _file: File,
+    public _filePath: FilePath
   ){
     this.buildDIDService();
     this.buildDittoService();

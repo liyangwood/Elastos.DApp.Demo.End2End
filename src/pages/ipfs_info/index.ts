@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import Base from '../Base';
 import FileViewPage from '../file_view';
+import Log from '../../utility/Log';
+//import * as papaparse from 'papaparse';
 
 
 @Component({
@@ -27,12 +29,6 @@ export default class Page extends Base {
   async ionViewDidLoad_AfterLogin(){
 
     await this.getListByPath('/');
-
-    const api = this.ipfsService.getAPI();
-
-    // api.files.mkdir('/abc', (err, rs)=>{
-    //   console.log(5, err, rs);
-    // })
   }
 
   async clickItem(item){
@@ -56,12 +52,41 @@ export default class Page extends Base {
     
   }
 
-  selectFile(elem){
-    elem.click();
+  async selectFile(elem){
+    if(this._plt.is('cordova')){
+      try{
+        const uri = await this._fileChooser.open();
+        Log.info('select file', uri);
+        await this.addFileForCordova(decodeURI(uri));
+      }catch(e){
+        Log.info('select file error', JSON.stringify(e));
+        this.warning(e.message);
+      }
+      
+    }
+    else{
+      elem.click();
+    }
+  }
+
+  async addFileForCordova(fileUri){
+    const res = await this._filePath.resolveNativePath(fileUri);
+    const entity = await this._file.resolveLocalFilesystemUrl(res);
+
+    entity.getParent(async (dirEntity)=>{
+      const file = await this._file.getFile(dirEntity, entity.name, {});
+      file.file(async (file)=>{
+        Log.info('File', JSON.stringify(file));
+        await this.addFile({
+          files : [file]
+        });
+      })
+    })
+
   }
 
   async addFile(elem){
-    console.log(elem.files);
+    // console.log(elem.files);
     const file = elem.files[0];
     if(!file){
       this.warning('invalid file');
@@ -88,21 +113,21 @@ export default class Page extends Base {
 
   async addFolder(){
     const prompt = this.alertCtrl.create({
-      title: 'Add Folder',
-      message: "Enter a folder name",
+      title: this.getLang('ipfs.0002'),
+      message: this.getLang('ipfs.0008'),
       inputs: [
         {
           name: 'title',
-          placeholder: 'name'
+          placeholder: this.getLang('ipfs.0008'),
         },
       ],
       buttons: [
         {
-          text: 'Cancel',
+          text: this.getLang('cancel'),
           handler: (d)=>{}
         },
         {
-          text: 'Add',
+          text: this.getLang('confirm'),
           handler: async (d)=>{
             const name = d.title;
             if(!name){
@@ -125,29 +150,28 @@ export default class Page extends Base {
   }
 
   async showItemMenu(item){
-    console.log(item);
     const actionSheet = this.actionSheetCtrl.create({
-      title : 'Operation',
+      title : this.getLang('ipfs.0003'),
       buttons: [
         {
-          text : 'rename',
+          text : this.getLang('ipfs.0004'),
           handler : ()=>{
             const prompt = this.alertCtrl.create({
-              title: 'Rename',
-              message: "Enter a new name",
+              title: this.getLang('ipfs.0004'),
+              message: this.getLang('ipfs.0006'),
               inputs: [
                 {
                   name: 'title',
-                  placeholder: 'new name'
+                  placeholder: this.getLang('ipfs.0007')
                 },
               ],
               buttons: [
                 {
-                  text: 'Cancel',
+                  text: this.getLang('cancel'),
                   handler: (d)=>{}
                 },
                 {
-                  text: 'Confirm',
+                  text: this.getLang('confirm'),
                   handler: async (d)=>{
                     const name = d.title;
                     if(!name){
@@ -170,7 +194,7 @@ export default class Page extends Base {
           }
         },
         {
-          text : 'delete',
+          text : this.getLang('ipfs.0005'),
           role : 'destructive',
           handler : ()=>{
             this.showLoading();

@@ -23,17 +23,17 @@ node_modules/
 tmp/
 temp/
 hooks/
-platforms/android/CordovaLib/build/
-platforms/android/app/.externalNativeBuild/
-platforms/android/app/build/
-platforms/android/app/src/main/assets/www/build/
-platforms/android/build/
-platforms/android/gradle/
-platforms/android/gradlew
-platforms/android/gradlew.bat
-plugins/
-plugins/android.json
-plugins/ios.json
+# platforms/android/CordovaLib/build/
+# platforms/android/app/.externalNativeBuild/
+# platforms/android/app/build/
+# platforms/android/app/src/main/assets/www/build/
+# platforms/android/build/
+# platforms/android/gradle/
+# platforms/android/gradlew
+# platforms/android/gradlew.bat
+# plugins/
+# plugins/android.json
+# plugins/ios.json
 www/
 $RECYCLE.BIN/
 

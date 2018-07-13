@@ -1,4 +1,6 @@
 {
+  "confirm" : "Confirm",
+  "cancel" : "Cancel",
   "tab" : {
     "0001" : "Ditto",
     "0002" : "Wallet",
@@ -8,6 +10,17 @@
   "setting" : {
     "0001" : "Language",
     "0002" : "set language"
+  },
+
+  "ipfs" : {
+    "0001" : "Add File",
+    "0002" : "Add Folder",
+    "0003" : "Operation",
+    "0004" : "Rename",
+    "0005" : "Delete",
+    "0006" : "Enter a new name",
+    "0007" : "new name",
+    "0008" : "Enter a folder name"
   }
   
 }

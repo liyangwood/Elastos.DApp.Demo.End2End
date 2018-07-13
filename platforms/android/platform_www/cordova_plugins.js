@@ -233,6 +233,14 @@ module.exports = [
     ]
   },
   {
+    "id": "cordova-plugin-filechooser.FileChooser",
+    "file": "plugins/cordova-plugin-filechooser/www/fileChooser.js",
+    "pluginId": "cordova-plugin-filechooser",
+    "clobbers": [
+      "fileChooser"
+    ]
+  },
+  {
     "id": "cordova-plugin-ionic-keyboard.keyboard",
     "file": "plugins/cordova-plugin-ionic-keyboard/www/android/keyboard.js",
     "pluginId": "cordova-plugin-ionic-keyboard",
@@ -255,6 +263,14 @@ module.exports = [
     "clobbers": [
       "window.StatusBar"
     ]
+  },
+  {
+    "id": "cordova-plugin-filepath.FilePath",
+    "file": "plugins/cordova-plugin-filepath/www/FilePath.js",
+    "pluginId": "cordova-plugin-filepath",
+    "clobbers": [
+      "window.FilePath"
+    ]
   }
 ];
 module.exports.metadata = 
@@ -264,11 +280,13 @@ module.exports.metadata =
   "cordova-plugin-file": "6.0.1",
   "cordova-plugin-advanced-http": "1.11.1",
   "cordova-plugin-device": "2.0.2",
+  "cordova-plugin-filechooser": "1.0.1",
   "cordova-plugin-ionic-keyboard": "2.0.5",
   "cordova-plugin-ionic-webview": "1.1.19",
   "cordova-plugin-splashscreen": "5.0.2",
   "cordova-plugin-statusbar": "2.4.2",
-  "cordova-plugin-whitelist": "1.3.3"
+  "cordova-plugin-whitelist": "1.3.3",
+  "cordova-plugin-filepath": "1.0.2"
 };
 // BOTTOM OF METADATA
 });

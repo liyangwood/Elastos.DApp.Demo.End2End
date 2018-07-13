@@ -4,6 +4,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
 
+import Log from '../utility/Log';
+
 import HomePage from '../pages/home/home';
 
 @Component({
@@ -18,7 +20,7 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
-
+      Log.info('platforms', platform.platforms());
       // console.log(translateService.getBrowserCultureLang())
       translateService.setDefaultLang('en');
 

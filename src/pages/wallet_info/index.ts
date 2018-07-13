@@ -20,6 +20,8 @@ export default class Page extends Base {
         }
       ],
       buttons : [
+
+
         {
           text : 'Cancel',
           role : 'cancel'
@@ -56,7 +58,8 @@ export default class Page extends Base {
 
   async ionViewDidLoad_AfterLogin(){
     //this.syncWallet();
-    // this.walletService.start();
+    console.log(555555);
+    this.walletService.start();
   }
 
   syncWallet(){
