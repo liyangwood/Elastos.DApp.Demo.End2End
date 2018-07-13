@@ -23,6 +23,7 @@ node_modules/
 tmp/
 temp/
 hooks/
+platforms/
 # platforms/android/CordovaLib/build/
 # platforms/android/app/.externalNativeBuild/
 # platforms/android/app/build/

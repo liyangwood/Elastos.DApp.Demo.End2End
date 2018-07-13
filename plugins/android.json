@@ -16,7 +16,13 @@
     "cordova-plugin-device": {
       "PACKAGE_NAME": "com.elastos.demo"
     },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.elastos.demo"
+    },
     "cordova-plugin-filechooser": {
+      "PACKAGE_NAME": "com.elastos.demo"
+    },
+    "cordova-plugin-filepath": {
       "PACKAGE_NAME": "com.elastos.demo"
     },
     "cordova-plugin-ionic-keyboard": {
@@ -32,12 +38,6 @@
       "PACKAGE_NAME": "com.elastos.demo"
     },
     "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "com.elastos.demo"
-    },
-    "cordova-plugin-file": {
-      "PACKAGE_NAME": "com.elastos.demo"
-    },
-    "cordova-plugin-filepath": {
       "PACKAGE_NAME": "com.elastos.demo"
     }
   },
