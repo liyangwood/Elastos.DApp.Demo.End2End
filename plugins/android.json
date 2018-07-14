@@ -7,9 +7,6 @@
     "files": {}
   },
   "installed_plugins": {
-    "ElaWallet": {
-      "PACKAGE_NAME": "com.elastos.demo"
-    },
     "cordova-plugin-advanced-http": {
       "PACKAGE_NAME": "com.elastos.demo"
     },
