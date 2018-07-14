@@ -1,117 +1,96 @@
 import Base from './Base';
 import Test from '../utility/Test';
 import * as _ from 'lodash';
+import createClient from 'webdav-fs';
 
+declare var Buffer;
 
-export default class extends Base {
+const config = {
+    // url : 'http://localhost:8000/remote.php/dav/files/admin',
+    url : 'http://192.144.145.63:8000/remote.php/dav/files/admin',
+    username : 'admin',
+    password : '111111'
+};
 
-    // fetch the file list with path
-    async fetchList(path: string): Promise<any[]>{
-        // TODO
+let _instance = null;
+export default class Service extends Base {
+    private client;
 
-        const rs = [];
-        _.each(_.range(10), (n)=>{
-            rs.push({
-                name : path.replace(/\//g, '-')+'-'+n,
-                type : 'dir',
-                meta : {},
-                path : path+'/'+n
-            });
-        });
-
-        if(path !== 'root'){
-            rs.push({
-                name : 'readme.txt',
-                type : 'file',
-                ext : 'txt',
-                content : 'Hello world'
-            }, {
-                name : 'moive.mp4',
-                type : 'file',
-                ext : 'mp4',
-                
-            });
+    static get(){
+        if(!_instance){
+            _instance = new Service();
         }
 
-        return Test.result(rs);
+        return _instance;
     }
 
-    // create dir with path
-    createFoler(path: string): any{
-        // TODO
+    _init(){
+        this.client = createClient(config.url, config.username, config.password);
+        console.log('init Ditto Service');
+        console.log(JSON.stringify(this.client))
+        this.client.readdir('/', (err, rs)=>{
+            console.log(1111111111111);
+            console.log(err);
+            console.log(rs);
+        })
+    }
 
-        // return [
-        //     {
-        //         name : 'new_folder',
-        //         type : 'dir'
-        //     },
-        //     ...this.fetchList('dir')
-        // ];
+    _promise(fn, args, endArgs=[]){
+        return new Promise((resolve, reject)=>{
+            this.client[fn](...args, (err, rs)=>{
+                if(err){
+                    reject(err);
+                }
+                else{
+                    resolve(rs);
+                }
+            }, ...endArgs);
+        }).catch((e)=>{
+            console.error(e);
+            throw fn+' error : '+e.message;
+        });
+    }
+
+    async fetchList(path: string): Promise<any[]>{
+        const rs = await this._promise('readdir', [path], ['stat']);
+        const list = _.map(rs, (item: any)=>{
+            item.type = item.isFile() ? 'file' : 'dir';
+            return item;
+        });
+        return _.sortBy(list, ['type']);
+    }
+
+
+    // create dir with path
+    async createFoler(path: string): Promise<any>{
+        const rs = await this._promise('mkdir', [path]);
+        return rs;
     }
 
     // rename a folder or file
-    rename(path: string, newName: string): any{
-        // TODO 
-
-        return true;
+    async rename(path: string, newPath: string): Promise<any>{
+        const rs = await this._promise('rename', [path, newPath]);
+        return rs;
     }
 
-    // upload a new file to ditto
-    uploadFile(path: string, file: any): any{
-        // TODO
-
-        return true;
+    async writeFileByBuffer(path: string, dataOrBuffer): Promise<any>{
+        return await this._promise('writeFile', [path, dataOrBuffer]);
     }
 
-    // change a file metadata
-    changeMeta(path: string, fileMeta: any): any{
-        // TODO
-
-        return true;
-    }
 
     // fetch a file
-    fetchFile(path: string): any{
-        // TODO
-
-        return {
-            name : 'readme.md',
-            type : 'file',
-            ext : 'md',
-            content : 'abc'
-        };
+    async fetchFile(path: string): Promise<any>{
+        return this._promise('readFile', [path, 'utf8']);
     }
 
     // fetch a file, return stream
-    fetchFileByStream(path: string): any{
-        // TODO
-
-        const arr = new ArrayBuffer(32);
-        const dv = new DataView(arr);
-        dv.setUint8(0, 10);
-
-        return dv.getUint8(0);
+    async fetchFileByBuffer(path: string): Promise<any>{
+        const data = await this._promise('readFile', [path, 'binary']);
+        return Buffer.from(data);
     }
 
     // delete a folder or file
-    delete(path: string): any{
-        // TODO
-
-        return true;
-    }
-
-    async fetchFileContent(item): Promise<any>{
-        const ext = item.ext;
-        if(ext === 'txt'){
-            return Test.result(`
-                <h2>Test File</h2>
-                <p>This is a test file content</p>
-                <b>Hello world</b>
-            `);
-        }
-        else if(ext === 'mp4'){
-        
-            return Test.result('assets/test.mp4');
-        }
+    async delete(path: string): Promise<any>{
+        return await this._promise('unlink', [path]);
     }
 }

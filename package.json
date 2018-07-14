@@ -35,7 +35,7 @@
     "@ionic/storage": "2.1.3",
     "@ngx-translate/core": "10.0.2",
     "@ngx-translate/http-loader": "3.0.1",
-    "ElaWallet": "file:plungin-src/ElaWallet",
+    "ElaWallet": "ElaWallet",
     "blob-stream": "^0.1.3",
     "cordova-android": "7.1.0",
     "cordova-plugin-advanced-http": "^1.11.1",
@@ -56,6 +56,7 @@
     "rxjs": "6.2.1",
     "rxjs-compat": "6.2.1",
     "sw-toolbox": "3.6.0",
+    "webdav-fs": "^1.10.2",
     "zone.js": "0.8.26"
   },
   "devDependencies": {
@@ -73,10 +74,10 @@
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-advanced-http": {},
       "cordova-plugin-statusbar": {},
-      "ElaWallet": {},
       "cordova-plugin-filechooser": {},
       "cordova-plugin-file": {},
-      "cordova-plugin-filepath": {}
+      "cordova-plugin-filepath": {},
+      "ElaWallet": {}
     },
     "platforms": [
       "android"

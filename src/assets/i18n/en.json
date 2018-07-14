@@ -21,6 +21,18 @@
     "0006" : "Enter a new name",
     "0007" : "new name",
     "0008" : "Enter a folder name"
+  },
+
+  "ditto" : {
+    "0001" : "Add File",
+    "0002" : "Add Folder",
+    "0003" : "Operation",
+    "0004" : "Rename",
+    "0005" : "Delete",
+    "0006" : "Enter a new name",
+    "0007" : "new name",
+    "0008" : "Enter a folder name",
+    "0009" : "Own-could"
   }
   
 }

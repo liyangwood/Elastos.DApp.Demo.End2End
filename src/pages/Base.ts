@@ -88,7 +88,7 @@ export default class Page {
   }
   protected buildDittoService(): DittoService{
     if(!this.dittoService){
-      this.dittoService = new DittoService();
+      this.dittoService = DittoService.get();
     }
     return this.dittoService;
   }
