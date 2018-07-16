@@ -5,17 +5,22 @@
 </ion-header>
 
 <ion-content class="app-page">
+  <div>{{memo}}</div>
   <div class="app-padding" style="padding: 0 15px;">
-    <h4>Ela Address</h4>
+    <h4>{{master_wallet_id}}</h4>
   </div>
   <ion-list>
-    <button ion-item *ngFor="let item of wallet_list" (click)="goToSendPage(item)">
-      {{item.address}}
+    <button ion-item *ngFor="let item of wallet_list" (click)="goDetailPage(item)">
+      {{item}}
     </button>
   </ion-list>
 
   <div class="app-padding">
-    <button ion-button block color="secondary" (click)="showAddPrompt()">Import New Address</button>
+    <button ion-button block color="secondary" (click)="createNewMasterWallet()">Create new master wallet</button>
+    <button ion-button block color="secondary" (click)="importMasterWalletWithKeystore()">Import master wallet by keystore</button>
+    <button ion-button block color="secondary" (click)="createSubWallet()">create sub wallet</button>
+    <!-- <button ion-button block color="secondary" (click)="showAddPrompt()">Import New Address</button>
+    <button ion-button block color="secondary" (click)="showAddPrompt()">Import New Address</button> -->
   </div>
   
   

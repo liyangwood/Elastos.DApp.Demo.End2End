@@ -94,7 +94,7 @@ export default class Page {
   }
   protected buildWalletService(): WalletService{
     if(!this.walletService){
-      this.walletService = new WalletService();
+      this.walletService = WalletService.get(this._plt.is('cordova'));
     }
 
     return this.walletService;
@@ -144,5 +144,16 @@ export default class Page {
 
   protected sanitize(url){
     return this._sanitizer.bypassSecurityTrustUrl(url);
+  }
+
+  protected async wallet_execute(fnName, ...args){
+    return new Promise((resolve, reject)=>{
+      this.walletService[fnName](...args, (data)=>{
+        console.log(999999 + ' => '+fnName + ' ----- start');
+        console.log(JSON.stringify(data));
+        console.log(999999 + ' => '+fnName + ' ----- end');
+        resolve(data);
+      });
+    });
   }
 };

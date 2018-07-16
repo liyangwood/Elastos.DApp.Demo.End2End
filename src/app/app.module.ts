@@ -22,6 +22,7 @@ import ProfilePage from '../pages/profile';
 import DittoDetailPage from '../pages/ditto_detail';
 import WalletInfoPage from '../pages/wallet_info';
 import WalletSendPage from '../pages/wallet_send';
+import WalletDetailPage from '../pages/wallet_detail';
 import IpfsInfoPage from '../pages/ipfs_info';
 import FileViewPage from '../pages/file_view';
 
@@ -43,7 +44,8 @@ const list = [
   WalletInfoPage,
   WalletSendPage,
   IpfsInfoPage,
-  FileViewPage
+  FileViewPage,
+  WalletDetailPage
 ];
 
 export const createTranslateLoader = class implements TranslateLoader {

@@ -7,9 +7,20 @@ declare var cordova: any;
  *
  * WalletManager.ts -> Wallet.js -> wallet.java -> WalletManager.java
  */
+let _instance = null;
 export default class WalletService extends Base {
 
-  private wallet;
+  static get(isCordova){
+    if(!_instance){
+        _instance = new WalletService();
+        _instance.setIsNative(isCordova);
+    }
+
+    return _instance;
+  } 
+
+  private wallet = null;
+  private isNative = false;
 
   public static COINTYPE_ELA = 0;
   public static COINTYPE_ID = 1;
@@ -17,18 +28,13 @@ export default class WalletService extends Base {
   public static FEEPERKb = 500;
   public static PAGECOUNT = 100;
 
-  _init(){
-    if(typeof cordova === 'undefined'){
-      window['cordova'] = {
-        plugins : {
-          Wallet : ()=>{}
-        }
-      };
+  setIsNative(flag){
+    if(flag){
+      this.isNative = flag;
+      this.wallet = cordova.plugins.Wallet;
     }
-    console.log(11111);
-    this.wallet = cordova.plugins.Wallet;
-    console.log(22222, cordova.plugins.Wallet);
-    
+
+    console.log('init Wallet Service');
   }
 
   /**通过android log 打印数据*/
@@ -192,6 +198,11 @@ export default class WalletService extends Base {
   }
 
   getAllMasterWallets(Fun){
+    if(!this.isNative){
+      return Fun({
+        walletid: 'Master Wallet'
+      });
+    }
     this.wallet.getAllMasterWallets([], Fun, this.errorFun);
   }
 
@@ -225,6 +236,13 @@ export default class WalletService extends Base {
   }
 
   getAllSubWallets(Fun){
+    if(!this.isNative){
+      return Fun({
+        'AAA': 'AAA',
+        'BBB': 'BBB',
+        'CCC': 'CCC'
+      });
+    }
     this.wallet.getAllSubWallets([],Fun,this.errorFun);
   }
 
