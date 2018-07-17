@@ -1,12 +1,10 @@
 import Base from './Base';
 import ipfsAPI from 'ipfs-api';
+import C from '../config';
 
 declare var Buffer;
 
-const config = {
-  url : '/ip4/192.144.145.63/tcp/5001'
-  // url : '/ip4/127.0.0.1/tcp/5001'
-};
+const config = C.ipfs;
 
 export default class extends Base {
   private api;

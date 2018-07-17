@@ -1,19 +1,13 @@
 import Base from './Base';
-import Test from '../utility/Test';
 import * as _ from 'lodash';
-// import createClient from 'webdav-fs';
+import createClient from 'webdav-fs';
 
-declare var Buffer, require;
+import C from '../config';
 
-const createClient = require('webdav-fs');
+declare var Buffer;
 
-const config = {
-    // url : 'http://localhost:8000/remote.php/dav/files/admin',
-    // url : 'http://192.168.1.101:8000/remote.php/dav/files/admin',
-    url : 'http://192.144.145.63:8000/remote.php/dav/files/admin',
-    username : 'admin',
-    password : '111111'
-};
+
+const config = C.ditto;
 
 let _instance = null;
 export default class Service extends Base {

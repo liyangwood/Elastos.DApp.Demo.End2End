@@ -60,7 +60,10 @@ export const createTranslateLoader = class implements TranslateLoader {
     BrowserModule,
     HttpModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      iconMode: 'ios',
+      mode: 'ios'
+    }),
     TranslateModule.forRoot({
       loader: {
           provide: TranslateLoader,
