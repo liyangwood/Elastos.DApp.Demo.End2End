@@ -11,11 +11,17 @@ import WalletSendPage from '../wallet_send';
 })
 export default class Page extends Base {
   private master_wallet_id = '';
-  private wallet_list : any[];
-  private wallet_map : any;
+  private wallet_list : any[] = [];
+  private wallet_map : any = {};
 
-  private memo: string = '';
+  private memo: string[] = [];
   private execute;
+
+  private isCreate = false;
+  private create_master_param = {
+    phrase_password : '',
+    pay_password : ''
+  };
 
   _init(){
     this.execute = this.wallet_execute;
@@ -54,19 +60,26 @@ export default class Page extends Base {
 
   async importWithMemo(){
     // 努 镜 兼 焦 改 狠 神 鬼 巡 微 星 率
-    const mem = this.normalizeMnemonic(this.memo);
-    this.walletService.importWalletWithMnemonic('100', this.memo, 'password1', 'password2', 'english', (data)=>{
-      console.log(999999)
-      console.log(JSON.stringify(data));
-      console.log(999999)
-    })
+    // const mem = this.normalizeMnemonic(this.memo);
+    // this.walletService.importWalletWithMnemonic('100', this.memo, 'password1', 'password2', 'english', (data)=>{
+    //   console.log(999999)
+    //   console.log(JSON.stringify(data));
+    //   console.log(999999)
+    // })
   }
 
   async ionViewDidLoad_AfterLogin(){
-    // this.generateMemo();
+    await this.init();
+  }
+
+  async init(){
     this.showLoading();
     const rs: any = await this.wallet_execute('getAllMasterWallets');
     this.master_wallet_id = rs.walletid;
+    if(!this.master_wallet_id){
+      this.hideLoading();
+      return;
+    }
 
     const sub = await this.wallet_execute('getAllSubWallets');
     this.wallet_list = _.values(sub);
@@ -90,24 +103,48 @@ export default class Page extends Base {
     let wordList = words.split(/[\u3000\s]+/);
 
     return wordList.join(isJA ? '\u3000' : ' ');
-  }
+  }  
 
-  private generateMemo(){
-    // can
-    this.walletService.generateMnemonic('english', (data)=>{
-      this.memo = data.mnemonic.toString();
-    })
-  }
-
-  
-
-  async createSubWallet(masterWalletID){
-    const rs = await this.execute('createSubWallet', 'WAR4', 'zhangying', false, 500);
-    await this.execute('getPublicKey');
-    await this.execute('getAllSubWallets');
-    await this.execute('getAllAddress', 'WAR3', 100);
-    await this.execute('getBalance', 'WAR3');
-    await this.execute('getBalanceInfo', 'WAR3');
+  async createSubWallet(){
+    const alert = this.alertCtrl.create({
+      title : 'Create sub wallet',
+      inputs : [
+        {
+          name : 'name',
+          placeholder : 'Name'
+        },
+        {
+          name : 'pay_password',
+          placeholder : 'Pay Password'
+        }
+      ],
+      buttons : [
+        {
+          text : 'Cancel',
+          role : 'cancel'
+        },
+        {
+          text : 'Confirm',
+          handler : (data)=>{
+            this.showLoading();
+            this.execute('createSubWallet', data.name, data.pay_password, true, 500).then(async (d)=>{
+              if(d === data.name){
+                this.toast('success');
+                const sub = await this.wallet_execute('getAllSubWallets');
+                this.wallet_list = _.values(sub);
+                this.wallet_map = sub;
+              }
+              else{
+                this.warning(JSON.stringify(d));
+              }
+              this.hideLoading();
+            });
+          }
+        }
+      ]
+    });
+    alert.present();
+    
   }
 
   async importMasterWalletWithKeystore(){
@@ -119,14 +156,50 @@ export default class Page extends Base {
   }
 
   async createNewMasterWallet(){
-    const memo = this.memo;
-    await this.execute('createMasterWallet', 'bbb', memo, 'password', 'zhangying', 'english');
-    await this.execute('getAllMasterWallets');
-    await this.execute('getWalletId');
-    await this.execute('getAllChainIds');
-    await this.execute('getSupportedChains');
-    await this.execute('getDIDList');
+    this.showLoading();
+    this.isCreate = true;
+    let rs = await this.execute('generateMnemonic', 'english');
+    this.memo = rs.mnemonic.toString().split(/[\u3000\s]+/);
+
+    this.hideLoading();
     
+  }
+  async clickCreateWallet(){
+    if(!this.create_master_param.phrase_password){
+      this.warning('invalide phrase password');
+      return false;
+    }
+    if(!this.create_master_param.pay_password){
+      this.warning('invalide pay password');
+      return false;
+    }
+
+    this.showLoading();
+    const rs = await this.execute('createMasterWallet', 'Ela Wallet', this.memo.join(' '), this.create_master_param.phrase_password, this.create_master_param.pay_password, 'english');
+    if(rs === 'OK'){
+      this.toast('success');
+      this.isCreate = false;
+      await this.init();
+    }
+    else{
+      this.warning(JSON.stringify(rs));
+      this.hideLoading();
+    }
+  }
+
+  async removeMasterWallet(){
+    this.showLoading();
+    const rs = await this.execute('destroyWallet', 'Ela Wallet');
+    if(rs === 'OK'){
+      this.toast('success');
+      this.wallet_list = [];
+      this.wallet_map = {};
+      this.master_wallet_id = '';
+    }
+    else{
+      this.warning(JSON.stringify(rs));
+    }
+    this.hideLoading();
   }
 
 }

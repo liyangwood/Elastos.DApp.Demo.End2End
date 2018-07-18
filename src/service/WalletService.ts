@@ -26,7 +26,7 @@ export default class WalletService extends Base {
   public static COINTYPE_ID = 1;
   public static LIMITGAP = 500;
   public static FEEPERKb = 500;
-  public static PAGECOUNT = 100;
+  public static PAGECOUNT = 10;
 
   setIsNative(flag){
     if(flag){
@@ -200,7 +200,7 @@ export default class WalletService extends Base {
   getAllMasterWallets(Fun){
     if(!this.isNative){
       return Fun({
-        walletid: 'Master Wallet'
+        walletid: ''
       });
     }
     this.wallet.getAllMasterWallets([], Fun, this.errorFun);
@@ -215,6 +215,11 @@ export default class WalletService extends Base {
   }
 
   generateMnemonic(language:string,Fun){
+    if(!this.isNative){
+      return Fun({
+        mnemonic: 'aaa bbb ccc ddd eee fff ggg hhh iii jjj kkk lll'
+      });
+    }
     this.wallet.generateMnemonic([language],Fun,this.errorFun);
   }
 
