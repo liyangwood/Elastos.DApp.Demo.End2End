@@ -30,6 +30,7 @@
         <div style="text-align: center;">
           <qrcode class="d_qr" [qrdata]="qrcode" [size]="200" [level]="'M'"></qrcode>
           <h4>{{qrcode}}</h4>
+          <h6>balance : {{qrcode_balance}}</h6>
         </div>
         
         <ion-list style="margin-top: 20px;">
@@ -58,13 +59,13 @@
         </ion-item>
 
         <div class="app-h-padding">
-          <button ion-button small (click)="scanQRCode()">scan qrcode</button>
+          <!-- <button ion-button small (click)="scanQRCode()">scan qrcode</button> -->
         </div>
         
       </ion-list>
       
       <div class="app-padding">
-        <h6 *ngIf="target.fee > 0">Translate Fee : {{target.fee}}</h6>
+        <h6 *ngIf="target.fee > 0">Transform Fee : {{target.fee}}</h6>
         <button *ngIf="!send_ready" ion-button block color="secondary" (click)="prepearForSend()">Send</button>
         <button *ngIf="send_ready" ion-button block color="secondary" (click)="confirmSend()">Confirm</button>
       </div>

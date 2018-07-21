@@ -167,6 +167,11 @@ export default class WalletService extends Base {
   }
 
   getBalanceWithAddress(chainId:string,address, Fun) {
+    if(!this.isNative){
+      return Fun({
+        balance: 100
+      })
+    }
     this.wallet.getBalanceWithAddress([chainId,address], Fun, this.errorFun);
   }
 

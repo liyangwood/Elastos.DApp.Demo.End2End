@@ -17,6 +17,7 @@ export default class Page extends Base {
   private walletId;
   private address_list = [];
   private qrcode = '';
+  private qrcode_balance = 0;
   private balance = 0;
   private info: any;
   private history:any[] = [];
@@ -33,12 +34,11 @@ export default class Page extends Base {
       balance : this.navParam.get('balance')
     };
     this.resetSend();
-    console.log(this.walletId, this.info)
   }
 
   resetSend(){
     this.target = {
-      address : 'EUZge2H57tJkoDGZLs83TFNgtTwK8iBeq3',
+      address : 'EU3v9Ui5wxc8VXn41rDsitrRzPygQbuGyP',
       amount : '',
       memo : '',
       fee : 0
@@ -62,12 +62,13 @@ export default class Page extends Base {
     const len = list.length > 5 ? 5 : list.length;
     this.address_list = _.slice(list, 0, len);
 
-    this.setQRCode(this.address_list[0]);
-    
+    await this.setQRCode(this.address_list[0]);
   }
 
-  setQRCode(address){
+  async setQRCode(address){
     this.qrcode = address;
+    const x: any = await this.wallet_execute('getBalanceWithAddress', this.walletId, address);
+    this.qrcode_balance = x.balance/config.SELA;
   }
   scanQRCode(){
     alert(1);
@@ -106,7 +107,7 @@ export default class Page extends Base {
     res = await this.wallet_execute('calculateTransactionFee',
       this.walletId, 
       this.param.transaction,
-      10000
+      100000
     );
     this.param.fee = res.fee;
     this.target.fee = res.fee/config.SELA;
@@ -189,7 +190,7 @@ export default class Page extends Base {
         
         const timestamp = transaction['Timestamp']*1000;
    
-        const datetime = wallet.dateFormat(new Date(timestamp));
+        const datetime = wallet.dateFormat(new Date(timestamp), 'yyyy-MM-dd hh:mm:ss');
         const summary = transaction['Summary'];
         console.log(JSON.stringify(summary));
         const incomingAmount = summary["Incoming"]['Amount'];

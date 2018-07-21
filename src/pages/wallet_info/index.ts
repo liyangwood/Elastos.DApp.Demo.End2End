@@ -77,7 +77,7 @@ export default class Page extends Base {
     // password : qweasd123
     // tenant parent skill hurry canal then actual census large giraffe flush shrug
 
-    // 安 然 容 月 世 智 闭 黎 欣 殖 款 正
+    // 摩 奖 符 似 壁 敏 脆 稿 昏 失 仓 裂
   }
 
   async ionViewDidEnter(){
@@ -153,13 +153,11 @@ export default class Page extends Base {
           handler : (data)=>{
             this.showLoading();
             this.execute('createSubWallet', data.name, data.pay_password, true, 500).then(async (d)=>{
-              if(d === data.name){
-                this.toast('success');
-                await this.init();
-              }
-              else{
-                this.warning(JSON.stringify(d));
-              }
+              this.toast('success');
+              await this.init();
+              this.hideLoading();
+            }).catch((e)=>{
+              this.warning(e);
               this.hideLoading();
             });
           }
@@ -198,31 +196,31 @@ export default class Page extends Base {
     }
 
     this.showLoading();
-    const rs = await this.execute('createMasterWallet', 'Ela Wallet', this.memo.join(' '), this.create_master_param.phrase_password, this.create_master_param.pay_password, 'english');
-    if(rs === 'OK'){
+    try{
+      await this.execute('createMasterWallet', 'Ela Wallet', this.memo.join(' '), this.create_master_param.phrase_password, this.create_master_param.pay_password, 'english');
       this.toast('success');
       this.isCreate = false;
       await this.init();
+    }catch(e){
+      this.warning(e);
     }
-    else{
-      this.warning(JSON.stringify(rs));
-      this.hideLoading();
-    }
+    
+    this.hideLoading();
   }
 
   async removeMasterWallet(){
     this.showLoading();
-    const rs = await this.execute('destroyWallet', 'Ela Wallet');
-    if(rs === 'OK'){
+    try{
+      await this.execute('destroyWallet', 'Ela Wallet');
       this.toast('success');
       this.wallet_list = [];
       this.wallet_map = {};
       this.master_wallet_id = '';
-    }
-    else{
-      this.warning(JSON.stringify(rs));
+    }catch(e){
+      this.warning(e);
     }
     this.hideLoading();
+    
   }
 
 }
