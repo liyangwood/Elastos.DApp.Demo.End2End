@@ -19,20 +19,14 @@ npm run build
 * IPFS : http://192.144.145.63:5001/ipfs/QmQLXHs7K98JNQdWrBB2cQLJahPhmupbDjRuH1b9ibmwVa
 
 ## Trinity apk 
-* http://192.144.145.63:8000/apps/files/?dir=/Trinity&fileid=18
+* http://192.144.145.63:8000/apps/files/?dir=/Trinity&fileid=18 (admin/111111)
 * there are 2 files there. one is Trinity apk. the other is the demo epk file.
 
 ## How to run Trinty with demo (will update later)
 * download Trinity apk and install
-* import the www.epk file in Trinity app
-* after the NO_ERROR alert shown, close the app and restart. 
-* you will see the demo app running.
+* import the E2E.epk file in Trinity app
+* click the E2E app
 
-## Demo status
-* IPFS : almost done. (connect to [IPFS service](http://192.144.145.63:5001/ipfs/QmQLXHs7K98JNQdWrBB2cQLJahPhmupbDjRuH1b9ibmwVa))
-* carrier to ditto server : not start.
-* wallet : doing.
-* DID : doing.
 
 
 
