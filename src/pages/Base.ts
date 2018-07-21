@@ -10,6 +10,7 @@ import { Platform } from 'ionic-angular';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { File } from '@ionic-native/file';
 import { FilePath } from '@ionic-native/file-path';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 import DIDService from '../service/DIDService';
 import DittoService from '../service/DittoService';
@@ -45,7 +46,8 @@ export default class Page {
     public _plt: Platform,
     public _fileChooser: FileChooser,
     public _file: File,
-    public _filePath: FilePath
+    public _filePath: FilePath,
+    private barcodeScanner: BarcodeScanner
   ){
     this.buildDIDService();
     this.buildDittoService();
@@ -82,7 +84,7 @@ export default class Page {
 
   protected buildDIDService(): DIDService{
     if(!this.didService){
-      this.didService = new DIDService();
+      this.didService = DIDService.get(this._plt.is('cordova'));
     }
     return this.didService;
   }
@@ -147,13 +149,14 @@ export default class Page {
   }
 
   protected async wallet_execute(fnName, ...args){
-    return new Promise((resolve, reject)=>{
-      this.walletService[fnName](...args, (data)=>{
-        console.log(999999 + ' => '+fnName + ' ----- start');
-        console.log(JSON.stringify(data));
-        console.log(999999 + ' => '+fnName + ' ----- end');
-        resolve(data);
-      });
-    });
+    return this.didService.execute(fnName, ...args);
+  }
+
+  protected scanBarcode(callback){
+    this.barcodeScanner.scan().then((data)=>{
+      callback(true, data);
+    }).catch((err)=>{
+      callback(false, err);
+    })
   }
 };

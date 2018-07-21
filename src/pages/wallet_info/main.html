@@ -10,13 +10,14 @@
   </div>
   <ion-list>
     <button ion-item *ngFor="let item of wallet_list" (click)="goDetailPage(item)">
-      {{item}}
+      <ion-note>{{item.address}}</ion-note>
+      <ion-note item-end>{{item.balance}}</ion-note>
     </button>
   </ion-list>
 
   <div *ngIf="!isCreate" class="app-padding">
     <button *ngIf="!master_wallet_id" ion-button block color="secondary" (click)="createNewMasterWallet()">Create new master wallet</button>
-    <!-- <button ion-button block color="secondary" (click)="importMasterWalletWithKeystore()">Import master wallet by keystore</button> -->
+    <button *ngIf="!master_wallet_id" ion-button block color="secondary" (click)="importWalletWithMnemonic()">Import master wallet with mnemonic</button>
     <button *ngIf="master_wallet_id" ion-button block color="secondary" (click)="createSubWallet()">create sub wallet</button>
     <!-- <button ion-button block color="secondary" (click)="showAddPrompt()">Import New Address</button>
     <button ion-button block color="secondary" (click)="showAddPrompt()">Import New Address</button> -->
@@ -43,7 +44,8 @@
       </ion-list>
     </div>
     <div class="app-padding">
-        <button ion-button block (click)="clickCreateWallet()">Create Wallet</button>
+      <button ion-button block (click)="clickCreateWallet()">Create Wallet</button>
+      <button ion-button block outline (click)="isCreate=false">Back</button>
     </div>
     
 

@@ -8,7 +8,7 @@
     
     <div class="app-padding">
       <p>Address : {{info.address}}</p>
-      <p>Blance : {{info.blance}}</p>
+      <p>Blance : {{info.balance}}</p>
     </div>
 
     <div class="app-h-padding">
@@ -26,7 +26,8 @@
       </ion-item>
     </ion-list>
     <div class="app-padding">
-      <button ion-button block color="secondary" (click)="send()">Send</button>
+      <button *ngIf="!send_ready" ion-button block color="secondary" (click)="prepearForSend()">Send</button>
+      <button *ngIf="send_ready" ion-button block color="secondary" (click)="confirmSend()">Confirm</button>
     </div>
     
     

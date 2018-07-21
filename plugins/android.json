@@ -36,6 +36,13 @@
     },
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "com.elastos.demo"
+    },
+    "ElaWallet": {
+      "PACKAGE_NAME": "com.elastos.demo"
+    },
+    "phonegap-plugin-barcodescanner": {
+      "ANDROID_SUPPORT_V4_VERSION": "27.+",
+      "PACKAGE_NAME": "com.elastos.demo"
     }
   },
   "dependent_plugins": {}

@@ -1,9 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import * as _ from 'lodash';
+import {wallet} from '../../utility';
 
 import Base from '../Base';
 import WalletDetailPage from '../wallet_detail';
-import WalletSendPage from '../wallet_send';
+
 
 @Component({
   selector: 'page-wallet_info',
@@ -58,22 +59,33 @@ export default class Page extends Base {
     
   }
 
-  async importWithMemo(){
-    // 努 镜 兼 焦 改 狠 神 鬼 巡 微 星 率
+  async importWalletWithMnemonic(){
     // const mem = this.normalizeMnemonic(this.memo);
-    // this.walletService.importWalletWithMnemonic('100', this.memo, 'password1', 'password2', 'english', (data)=>{
-    //   console.log(999999)
-    //   console.log(JSON.stringify(data));
-    //   console.log(999999)
-    // })
+    const mem = 'couple advice soldier cherry thunder huge wisdom fun wrist hill girl right';
+    this.showLoading();
+    this.walletService.importWalletWithMnemonic('Wallet-Mnemonic', mem, '12345678', '12345678', 'english', async (data)=>{
+      if(data === 'OK'){
+        this.toast('success');
+        await this.init();
+      }
+      else{
+        this.warning(JSON.stringify(data));
+      }
+      this.hideLoading();
+    })
+
+    // password : qweasd123
+    // tenant parent skill hurry canal then actual census large giraffe flush shrug
+
+    // 安 然 容 月 世 智 闭 黎 欣 殖 款 正
   }
 
-  async ionViewDidLoad_AfterLogin(){
+  async ionViewDidEnter(){
     await this.init();
   }
 
   async init(){
-    this.showLoading();
+    // this.showLoading();
     const rs: any = await this.wallet_execute('getAllMasterWallets');
     this.master_wallet_id = rs.walletid;
     if(!this.master_wallet_id){
@@ -82,9 +94,21 @@ export default class Page extends Base {
     }
 
     const sub = await this.wallet_execute('getAllSubWallets');
-    this.wallet_list = _.values(sub);
+    this.wallet_list = _.map(_.values(sub), (address)=>{
+      const tmp = {
+        address,
+        balance : 'NA'
+      };
+      return tmp;
+    });
+    console.log(wallet);
+    _.each(this.wallet_list, async (item: any)=>{
+      const rs: any = await this.wallet_execute('getBalance', item.address);
+
+      item.balance = wallet.balance(rs.balance);
+    })
     this.wallet_map = sub;
-    this.hideLoading();
+    // this.hideLoading();
   }
 
   // syncWallet(){
@@ -93,7 +117,8 @@ export default class Page extends Base {
 
   goDetailPage(item){
     this.navCtrl.push(WalletDetailPage, {
-      walletId : item
+      walletId : item.address,
+      balance : item.balance
     });
   }
 
@@ -130,9 +155,7 @@ export default class Page extends Base {
             this.execute('createSubWallet', data.name, data.pay_password, true, 500).then(async (d)=>{
               if(d === data.name){
                 this.toast('success');
-                const sub = await this.wallet_execute('getAllSubWallets');
-                this.wallet_list = _.values(sub);
-                this.wallet_map = sub;
+                await this.init();
               }
               else{
                 this.warning(JSON.stringify(d));

@@ -1,7 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import Base from '../Base';
-
+import {wallet} from '../../utility';
 import * as _ from 'lodash';
+
+import WalletSendPage from '../wallet_send';
+
+import C from '../../config';
+
+const config = C.wallet;
 
 @Component({
   selector: 'page-wallet_detail',
@@ -9,62 +15,209 @@ import * as _ from 'lodash';
 })
 export default class Page extends Base {
   private walletId;
-  private address_list  = [];
+  private address_list = [];
+  private qrcode = '';
   private balance = 0;
-  
-  goBack(){
-    this.navCtrl.pop();
+  private info: any;
+  private history:any[] = [];
+
+  private sec: string;
+
+  private send_ready = false;
+  private target: any;
+  private param: any;
+
+  _init(){
+    this.walletId = this.navParam.get('walletId');
+    this.info = {
+      balance : this.navParam.get('balance')
+    };
+    this.resetSend();
+    console.log(this.walletId, this.info)
   }
+
+  resetSend(){
+    this.target = {
+      address : 'EUZge2H57tJkoDGZLs83TFNgtTwK8iBeq3',
+      amount : '',
+      memo : '',
+      fee : 0
+    };
+    this.param = {};
+  }
+
+  
   async ionViewDidLoad_AfterLogin(){
     this.showLoading();
-    this.walletId = this.navParam.get('walletId');
-    await this.setBalance();
+    
     await this.setAddressList();
 
-    // const x: any = await this.wallet_execute('createDID', 'zhangying');
-    // const didname = x.didname;
-    // // await this.wallet_execute('didGetPublicKey', didname);
-    // await this.wallet_execute('getDIDList');
-    // await this.wallet_execute('didGetAllKeys', didname, 0, 100);
-    // await this.wallet_execute('didGetHistoryValue', didname, 'aaa');
-    // await this.wallet_execute('didSetValue', didname, 'aaa', '111');
-    // await this.wallet_execute('didSetValue', didname, 'aaa', '222');
-    // await this.wallet_execute('didGetAllKeys', didname, 0, 100);
-    // await this.wallet_execute('didGetValue', didname, 'aaa');
-    // await this.wallet_execute('didGetHistoryValue', didname, 'aaa');
-    
-    // await this.wallet_execute('generateMultiSignTransaction', this.walletId, this.address_list[0].address, 'ESHevbU8mp7gWLvPhMiySVZQFGJJ4a7BKm', 1, 0.001, '12345678', 'test pay');
-
     this.hideLoading();
-    
-    // await this.wallet_execute('getBalance', this.walletId);
-    // await this.wallet_execute('getBalanceInfo', this.walletId);
-    // await this.wallet_execute('createAddress', this.walletId);
-    // await this.wallet_execute('createAddress', this.walletId);
-    // await this.wallet_execute('getAllAddress', this.walletId, 0);
-  }
-
-  async setBalance(){
-    const rs: any = await this.wallet_execute('getBalance', this.walletId);
-    await this.wallet_execute('getBalanceInfo', this.walletId);
-    this.balance = rs.balance;
+    this.sec = 'sec_receive';
   }
 
   async setAddressList(){
     const rs: any = await this.wallet_execute('getAllAddress', this.walletId, 0);
-    this.address_list = _.map(JSON.parse(rs).Addresses, (address)=>{
-      return {
-        address,
-        balance : 0
-      };
-    });
+    const list = JSON.parse(rs).Addresses;
+    const len = list.length > 5 ? 5 : list.length;
+    this.address_list = _.slice(list, 0, len);
 
-    _.each(this.address_list, async (item, i)=>{
-      const d: any = await this.wallet_execute('getBalanceWithAddress', this.walletId, item.address);
-      _.set(this.address_list[i].balance, d.balance, 0);
+    this.setQRCode(this.address_list[0]);
+    
+  }
+
+  setQRCode(address){
+    this.qrcode = address;
+  }
+  scanQRCode(){
+    alert(1);
+    this.scanBarcode((flag, data)=>{
+      console.log(flag, data);
     });
   }
 
+
+  goDetailPage(item){
+    this.navCtrl.push(WalletSendPage, {
+      address : item.address,
+      walletId : this.walletId,
+      balance : item.balance
+    });
+  }
+
+  async prepearForSend(){
+    if(!this.target.amount){
+      this.warning('invalid amount');
+      return false;
+    }
+
+    this.param.amount = parseFloat(this.target.amount) * config.SELA;
+    let res:any = await this.wallet_execute('createTransaction', 
+      this.walletId, 
+      '',
+      this.target.address,
+      this.param.amount,
+      this.target.fee,
+      this.target.memo,
+      ''
+    );
+    this.param.transaction = res.transactionId.toString();
+    // console.log(this.param.transaction)
+    res = await this.wallet_execute('calculateTransactionFee',
+      this.walletId, 
+      this.param.transaction,
+      10000
+    );
+    this.param.fee = res.fee;
+    this.target.fee = res.fee/config.SELA;
+
+    this.send_ready = true;
+  }
+  async confirmSend(){
+    const alert = this.alertCtrl.create({
+      title : 'Input password',
+      inputs : [
+        {
+          name : 'password',
+          placeholder : 'Input password'
+        }
+      ],
+      buttons : [
+
+        {
+          text : 'Cancel',
+          role : 'cancel'
+        },
+        {
+          text : 'confirm',
+          handler : (data)=>{
+            if(!data.password){
+              this.warning('invalid password');
+              return false;
+            }
+            this._confirmSend(data.password);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+  async _confirmSend(password){
+    this.showLoading('confirming ...');
+    try{
+      let res:any = await this.wallet_execute('sendRawTransaction', this.walletId, this.param.transaction, this.param.fee, password||'12345678');
+   
+      this.param.txId = res["json"]["txHash"];
+      this.walletService.registerWalletListener(this.walletId, async (d: any)=>{
+        console.log('registerWalletListener => ' + JSON.stringify(d));
+        if(d.confirms === 1){
+    
+          _.delay(async ()=>{
+            const xx = await this.wallet_execute('getBalance', this.walletId);
+            this.info.balance = (xx.balance/config.SELA);
+            this.toast('success');
+            this.resetSend();
+            
   
+            this.hideLoading();
+          }, 10);
+          
+        }
+
+      });
+      
+    }catch(e){
+      this.warning(e.toString());
+      this.hideLoading();
+    }
+    
+  }
+
+  
+  async segmentChanged(e:any){
+    const v = e.value;
+    if(v === 'sec_history'){
+      await this.initHistory();
+    }
+  }
+  
+  async initHistory(){
+    try{
+      const res:any = await this.wallet_execute('getAllTransaction', this.walletId, 0, '');
+      const data = JSON.parse(res.allTransaction)['Transactions'];
+      const list = _.map(data, (transaction)=>{
+        
+        const timestamp = transaction['Timestamp']*1000;
+   
+        const datetime = wallet.dateFormat(new Date(timestamp));
+        const summary = transaction['Summary'];
+        console.log(JSON.stringify(summary));
+        const incomingAmount = summary["Incoming"]['Amount'];
+        const outcomingAmount = summary["Outcoming"]['Amount'];
+        const incomingAddress = summary["Incoming"]['ToAddress'];
+        const outcomingAddress = summary["Outcoming"]['ToAddress'];
+        const balanceResult = incomingAmount - outcomingAmount;
+        return {
+          name: this.walletId,
+          status: summary["Status"],
+          balance: balanceResult/config.SELA,
+          incomingAmount: incomingAmount/config.SELA,
+          outcomingAmount: outcomingAmount/config.SELA,
+          incomingAddress: incomingAddress,
+          outcomingAddress: outcomingAddress,
+          transactionTime: datetime,
+          timestamp: timestamp,
+          payfees: summary['Fee']/config.SELA,
+          confirmCount: summary["ConfirmStatus"],
+          remark: summary["Remark"]
+        };
+      });
+
+      this.history = list;
+    }catch(e){
+      this.warning(e);
+
+    } 
+  }
 
 }

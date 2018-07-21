@@ -13,6 +13,8 @@ import 'rxjs/add/observable/of';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { File } from '@ionic-native/file';
 import { FilePath } from '@ionic-native/file-path';
+import {QRCodeModule} from 'angularx-qrcode';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 import { MyApp } from './app.component';
 import HomePage from '../pages/home/home';
@@ -70,6 +72,7 @@ export const createTranslateLoader = class implements TranslateLoader {
           useClass: createTranslateLoader
       },
     }),
+    QRCodeModule
   ],
   bootstrap: [IonicApp],
   entryComponents: list,
@@ -80,7 +83,8 @@ export const createTranslateLoader = class implements TranslateLoader {
     FilePath,
     File,
     HTTP,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    BarcodeScanner
   ]
 })
 export class AppModule {}

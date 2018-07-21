@@ -26,7 +26,7 @@ export default class WalletService extends Base {
   public static COINTYPE_ID = 1;
   public static LIMITGAP = 500;
   public static FEEPERKb = 500;
-  public static PAGECOUNT = 10;
+  public static PAGECOUNT = 100;
 
   setIsNative(flag){
     if(flag){
@@ -142,6 +142,11 @@ export default class WalletService extends Base {
   }
 
   getBalance(chainId:string,Fun) {
+    if(!this.isNative){
+      return Fun({
+        balance : 100000000000
+      })
+    }
     this.wallet.getBalance([chainId], Fun, this.errorFun);
   }
 
@@ -150,6 +155,14 @@ export default class WalletService extends Base {
   }
 
   getAllAddress(chainId:string,start:number,Fun) {
+    if(!this.isNative){
+      return Fun(JSON.stringify({
+        Addresses : [
+          'aaaaaaaaaaaaaaaaaa',
+          'bbbbbbbbbbbbbbbbbb'
+        ]
+      }));
+    }
     this.wallet.getAllAddress([chainId,start, WalletService.PAGECOUNT], Fun, this.errorFun);
   }
 
@@ -200,7 +213,7 @@ export default class WalletService extends Base {
   getAllMasterWallets(Fun){
     if(!this.isNative){
       return Fun({
-        walletid: ''
+        walletid: 'Test'
       });
     }
     this.wallet.getAllMasterWallets([], Fun, this.errorFun);
@@ -256,6 +269,11 @@ export default class WalletService extends Base {
   }
 
   createTransaction(chainId:string,fromAddress:string , toAddress:string ,amount:number,fee:number, memo:string, remark: string,Fun){
+    if(!this.isNative){
+      return Fun({
+        
+      })
+    }
     this.wallet.createTransaction([chainId,fromAddress,toAddress,amount,fee,memo, remark],Fun,this.errorFun);
   }
 
@@ -268,6 +286,11 @@ export default class WalletService extends Base {
   }
 
   createDID(password:string,Fun){
+    if(!this.isNative){
+      return Fun({
+        didname : 'test_did_name'
+      })
+    }
     this.wallet.createDID([password],Fun,this.errorFun);
   }
 

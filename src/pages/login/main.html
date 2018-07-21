@@ -1,22 +1,58 @@
 
 
 <ion-content class="app-page" padding>
+  <div padding>
+    <ion-segment [(ngModel)]="main">
+      <ion-segment-button value="sign_in">
+        Sign In
+      </ion-segment-button>
+      <ion-segment-button value="sign_up">
+        Sign Up
+      </ion-segment-button>
+    </ion-segment>
+  </div>
 
-  <h2 class="d_h2">E2E Demo</h2>
-  <h4>Login in Ditto</h4>
-
-  <ion-list>
-    <ion-item>
-      <ion-label fixed>Username</ion-label>
-      <ion-input type="text" value=""></ion-input>
-    </ion-item>
+  <div [ngSwitch]="main">
+    <div *ngSwitchCase="'sign_in'">
+        <h2 class="d_h2">E2E Demo</h2>
+        <h4>Login with DID</h4>
+      
+        <ion-list>
+          <ion-item>
+            <ion-label fixed>Username</ion-label>
+            <ion-input type="text" [(ngModel)]="signin_param.username"></ion-input>
+          </ion-item>
+        
+          <ion-item>
+            <ion-label fixed>Password</ion-label>
+            <ion-input type="text" [(ngModel)]="signin_param.password"></ion-input>
+          </ion-item>
+        
+        </ion-list>
+      
+        <button ion-button block (click)="actionDidLogin()">DID Sign in</button>
+    </div>
   
-    <ion-item>
-      <ion-label fixed>Password</ion-label>
-      <ion-input type="password"></ion-input>
-    </ion-item>
-  
-  </ion-list>
+    <div *ngSwitchCase="'sign_up'">
+        <ion-list>
+          <ion-item>
+            <ion-label fixed>Nickname</ion-label>
+            <ion-input type="text" [(ngModel)]="signup_param.nickname"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label fixed>Username</ion-label>
+            <ion-input type="text" [(ngModel)]="signup_param.username"></ion-input>
+          </ion-item>
+        
+          <ion-item>
+            <ion-label fixed>Password</ion-label>
+            <ion-input type="password" [(ngModel)]="signup_param.password"></ion-input>
+          </ion-item>
+        
+        </ion-list>
+        <button ion-button block (click)="signup()">DID Sign Up</button>
+    </div>
+  </div>
 
-  <button ion-button block (click)="actionDidLogin()">DID Login</button>
+  
 </ion-content>
