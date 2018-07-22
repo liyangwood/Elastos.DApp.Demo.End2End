@@ -39,7 +39,7 @@ export default class Page extends Base {
   changeLang(lang){
     this.translateService.use(lang);
     localStorage.setItem('current_lang', lang);
-    location.reload(true);
+    // location.reload(true);
   }
 
 }

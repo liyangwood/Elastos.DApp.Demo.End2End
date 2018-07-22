@@ -103,7 +103,7 @@ export default class Page {
   }
 
   async ionViewDidLoad(){
-    if(this.userService.isLogin){
+    if(true){
       await this.ionViewDidLoad_AfterLogin();
     }
     else{

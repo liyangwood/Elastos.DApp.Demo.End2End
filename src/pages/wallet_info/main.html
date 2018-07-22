@@ -16,24 +16,24 @@
   </ion-list>
 
   <div *ngIf="!isCreate" class="app-padding">
-    <button *ngIf="!master_wallet_id" ion-button block color="secondary" (click)="createNewMasterWallet()">Create new master wallet</button>
-    <button *ngIf="!master_wallet_id" ion-button block color="secondary" (click)="importWalletWithMnemonic()">Import master wallet with mnemonic</button>
-    <button *ngIf="master_wallet_id" ion-button block color="secondary" (click)="createSubWallet()">create sub wallet</button>
-    <!-- <button ion-button block color="secondary" (click)="showAddPrompt()">Import New Address</button>
-    <button ion-button block color="secondary" (click)="showAddPrompt()">Import New Address</button> -->
-    <button *ngIf="master_wallet_id"  ion-button block color="danger" (click)="removeMasterWallet()">Remove Master Wallet</button>
+    <button *ngIf="!master_wallet_id" ion-button block color="secondary" (click)="createNewMasterWallet()">{{'wallet.0002' | translate}}</button>
+    <button *ngIf="!master_wallet_id" ion-button block color="secondary" (click)="importWalletWithMnemonic()">{{'wallet.0003' | translate}}</button>
+    <button *ngIf="master_wallet_id" ion-button block color="secondary" (click)="createSubWallet()">{{'wallet.0001' | translate}}</button>
+    <button *ngIf="master_wallet_id" ion-button block color="secondary" (click)="goSettingPage()">{{'wallet.0005' | translate}}</button>
+
+    <button style="margin-top:120px;" *ngIf="master_wallet_id"  ion-button block color="danger" (click)="removeMasterWallet()">{{'wallet.0004' | translate}}</button>
   </div>
 
   <div *ngIf="isCreate">
     <div class="app-padding">
-      <h4>Mnemonic</h4>
+      <h4>{{'wallet.0006' | translate}}</h4>
       <hr/>
       <p>
         <b *ngFor="let x of memo" style="margin-right: 10px;">{{x}}</b>
       </p>
     </div>
     <div style="margin-top:12px;">
-      <h4 style="padding-left:15px;">Set password</h4>
+      <h4 style="padding-left:15px;">{{'wallet.0007' | translate}}</h4>
       <ion-list>
         <ion-item>
           <ion-input type="text" [(ngModel)]="create_master_param.phrase_password" placeholder="Phrase Password"></ion-input>
@@ -44,8 +44,8 @@
       </ion-list>
     </div>
     <div class="app-padding">
-      <button ion-button block (click)="clickCreateWallet()">Create Wallet</button>
-      <button ion-button block outline (click)="isCreate=false">Back</button>
+      <button ion-button block (click)="clickCreateWallet()">{{'wallet.0008' | translate}}</button>
+      <button ion-button block outline (click)="isCreate=false">{{'wallet.0009' | translate}}</button>
     </div>
     
 

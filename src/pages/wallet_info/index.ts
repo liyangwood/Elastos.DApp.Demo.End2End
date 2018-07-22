@@ -4,6 +4,7 @@ import {wallet} from '../../utility';
 
 import Base from '../Base';
 import WalletDetailPage from '../wallet_detail';
+import WalletSettingPage from '../wallet_setting';
 
 
 @Component({
@@ -120,6 +121,10 @@ export default class Page extends Base {
       walletId : item.address,
       balance : item.balance
     });
+  }
+
+  goSettingPage(){
+    this.navCtrl.push(WalletSettingPage);
   }
 
   private normalizeMnemonic(words: string): string {

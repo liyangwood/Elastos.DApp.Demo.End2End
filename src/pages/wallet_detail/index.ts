@@ -3,7 +3,6 @@ import Base from '../Base';
 import {wallet} from '../../utility';
 import * as _ from 'lodash';
 
-import WalletSendPage from '../wallet_send';
 
 import C from '../../config';
 
@@ -74,15 +73,6 @@ export default class Page extends Base {
     alert(1);
     this.scanBarcode((flag, data)=>{
       console.log(flag, data);
-    });
-  }
-
-
-  goDetailPage(item){
-    this.navCtrl.push(WalletSendPage, {
-      address : item.address,
-      walletId : this.walletId,
-      balance : item.balance
     });
   }
 

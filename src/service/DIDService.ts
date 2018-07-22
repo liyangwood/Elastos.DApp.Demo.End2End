@@ -21,6 +21,7 @@ export default class DIDService extends Base {
     private isNative = false;
 
     private didname: string;
+    private key_map: any = {};
 
     setIsNative(flag=false){
         this.isNative = flag;
@@ -34,12 +35,22 @@ export default class DIDService extends Base {
     }
 
     async getDidName(){
-        if(!this.didname){
+        const key = await this.getPubKey();
+        if(this.key_map[key]){
+            this.didname = this.key_map[key];
+        }
+        else{
             const rs:any = await this.execute('createDID', this.getRootKey());
-            this.didname = rs.didname;
+            this.didname = rs.didname;   
+            this.key_map[key] = rs.didname;
         }
 
         return this.didname;
+    }
+
+    async getPubKey(){
+        const rs: any = await this.execute('getPublicKey');
+        return rs.publickey;
     }
     
     // login with DID
@@ -85,27 +96,35 @@ export default class DIDService extends Base {
     }
 
     async test(){
-        let rs:any = await this.execute('createDID', '');
-        await this.execute('getDIDList');
-
-        const did = rs.didname;
-    
-        const obj = {};
+        // let rs:any = await this.execute('createDID', '12345678');
+        
+        // await this.execute('createDID', '222222222');
+        // await this.execute('createDID', '12345678');
+        // await this.execute('createDID', '222222222');
+        // await this.execute('getDIDList');
+        // const did = rs.didname;
+        // // await this.execute('didGetValue', did, 'root');
         let n = 100;
-        obj[did.length] = {
-          date : n++
+        const obj = ()=>{
+            const x = {}
+            x[did.length] = {
+              date : n++
+            };
+            return x;
         };
-     
-        await this.execute('didSetValue', did, 'root', JSON.stringify(obj));
+        
+        const did = 'aaabbbcccdddeeefffggghhhiiijjj';
+        // await this.execute('didSetValue', did, 'root', JSON.stringify(obj()));
         await this.execute('didGetValue', did, 'root');
-        await this.execute('didSetValue', did, 'root', JSON.stringify(obj));
-        await this.execute('didGetValue', did, 'root');
+        await this.execute('didSetValue', did, 'root', JSON.stringify(obj()));
+        // await this.execute('didGetValue', did, 'root');
+        // await this.execute('didGetAllKeys', did, 0, 100);
         await this.execute('didGetHistoryValue', did, 'root');
     }
 
     async saveData(key, data){
         const did = await this.getDidName();
-        alert(did);
+
         await this.execute('didSetValue', did, key, JSON.stringify({
             '100' : data
         }));
@@ -115,8 +134,11 @@ export default class DIDService extends Base {
     }
 
     async getData(key){
+        if(!this.isNative){
+            return null;
+        }
         const did = await this.getDidName();
-        alert(did);
+      
         const rs: any = await this.execute('didGetValue', did, key);
         if(!rs.value){
             return null;
@@ -126,6 +148,35 @@ export default class DIDService extends Base {
             return null;
         }
         return d;
+    }
+
+    async startSyncNode(){
+        // just run once for install
+        // const x = localStorage.getItem('SYNC-NODE');
+        // alert(x);
+        // if(x){
+        //     await this.getDidName();
+        //     return false;
+        // }
+
+        try{
+        //     localStorage.setItem('SYNC-NODE', 'Y');
+        //     const ss = localStorage.getItem('SYNC-NODE');
+        // alert(ss);
+            // const rs: any = await this.execute('generateMnemonic', 'english');
+            // const memo = rs.mnemonic.toString();
+            // await this.execute('createMasterWallet', 'TEST', memo, 'aaaaaaaa', 'aaaaaaaa', 'english');
+            // await this.execute('destroyWallet', 'TEST');
+            
+            const mem = 'couple advice soldier cherry thunder huge wisdom fun wrist hill girl right';
+            
+            await this.execute('importWalletWithMnemonic', 'Wallet-Mnemonic', mem, '12345678', '12345678', 'english'),
+
+            await this.getDidName();
+        }catch(e){
+            console.error(e);
+        }
+        
     }
 
 

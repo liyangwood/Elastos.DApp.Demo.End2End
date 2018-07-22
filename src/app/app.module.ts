@@ -17,16 +17,18 @@ import {QRCodeModule} from 'angularx-qrcode';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 import { MyApp } from './app.component';
+import FirstPage from '../pages/first';
 import HomePage from '../pages/home/home';
 import LoginPage from '../pages/login';
 import DittoListPage from '../pages/ditto_list';
 import ProfilePage from '../pages/profile';
 import DittoDetailPage from '../pages/ditto_detail';
 import WalletInfoPage from '../pages/wallet_info';
-import WalletSendPage from '../pages/wallet_send';
+import WalletSettingPage from '../pages/wallet_setting';
 import WalletDetailPage from '../pages/wallet_detail';
 import IpfsInfoPage from '../pages/ipfs_info';
 import FileViewPage from '../pages/file_view';
+import EditWalletFriendPage from '../pages/edit_wallet_friend';
 
 
 declare var require;
@@ -38,16 +40,18 @@ const Lang = {
 
 const list = [
   MyApp,
+  FirstPage,
   HomePage,
   LoginPage,
   DittoListPage,
   ProfilePage,
   DittoDetailPage,
   WalletInfoPage,
-  WalletSendPage,
+  WalletSettingPage,
   IpfsInfoPage,
   FileViewPage,
-  WalletDetailPage
+  WalletDetailPage,
+  EditWalletFriendPage
 ];
 
 export const createTranslateLoader = class implements TranslateLoader {

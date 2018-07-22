@@ -6,15 +6,16 @@ import { TranslateService } from '@ngx-translate/core';
 
 import Log from '../utility/Log';
 
-import HomePage from '../pages/home/home';
+import FirstPage from '../pages/first';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = HomePage;
+  rootPage:any = null;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public translateService: TranslateService) {
+    this.rootPage = FirstPage;
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.

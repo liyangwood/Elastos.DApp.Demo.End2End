@@ -43,6 +43,7 @@ export default class Page extends Base {
     }, 2000);
 
     return false;
+
     // const data = this.signin_param;
     // const key = data.username;
 
@@ -51,17 +52,21 @@ export default class Page extends Base {
     //   return false;
     // }
 
+    // this.showLoading();
     // const rs = await this.didService.getData(key);
-    // if(!rs){
+    // if(!rs || !rs.password || rs.password !== data.password){
+    //   this.hideLoading();
     //   this.warning('incorrect username or password');
     //   return false;
     // }
+    // this.hideLoading();
     // alert(rs.nickname);
   }
 
   async ionViewDidLoad(){
     this.main = 'sign_in';
-
+    
+    // await this.didService.startSyncNode();
   }
 
   async testDID(){
@@ -78,6 +83,12 @@ export default class Page extends Base {
     }
 
     this.showLoading();
+    const xd: any = this.didService.getData(key);
+    if(xd.username){
+      this.warning('username is exist');
+      this.hideLoading();
+      return false;
+    }
     await this.didService.saveData(key, data);
 
     this.hideLoading();
