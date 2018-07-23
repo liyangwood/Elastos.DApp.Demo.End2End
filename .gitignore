@@ -45,3 +45,7 @@ UserInterfaceState.xcuserstate
 /docker/data
 .idea
 .vscode
+
+/EPK/*/www/build/
+/EPK/*/www/assets/
+E2E.epk

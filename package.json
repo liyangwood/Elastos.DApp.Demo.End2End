@@ -7,14 +7,16 @@
   "scripts": {
     "start": "npm run ionic:serve",
     "clean": "ionic-app-scripts clean",
-    "build": "ionic-app-scripts build --prod",
+    "build": "ionic-app-scripts build",
+    "build:prod": "ionic-app-scripts build --prod",
     "lint": "ionic-app-scripts lint",
     "build:android": "ionic-app-scripts build android",
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve",
     "minify": "ionic-app-scripts build minify",
     "dep:start": "docker-compose -f ./docker/ditto-server.yml -f ./docker/ipfs.yml up -d",
-    "dep:stop": "docker-compose -f ./docker/ditto-server.yml -f ./docker/ipfs.yml down"
+    "dep:stop": "docker-compose -f ./docker/ditto-server.yml -f ./docker/ipfs.yml down",
+    "build:epk": "npm run build:prod && node shell/build.js"
   },
   "dependencies": {
     "@angular/animations": "6.0.7",
@@ -66,6 +68,7 @@
   "devDependencies": {
     "@ionic/app-scripts": "3.1.11",
     "@types/lodash": "4.14.110",
+    "archiver": "0.11.0",
     "typescript": "2.7.2"
   },
   "description": "An Ionic project",
