@@ -1,7 +1,7 @@
-import Base from './Base';
+import {Base} from './Base';
 import * as _ from 'lodash';
 
-export default class extends Base {
+export class UserService extends Base {
   public current;
   public isLogin;
 

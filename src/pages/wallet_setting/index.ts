@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 
-import Base from '../Base';
+import {Base} from '../Base';
 import * as _ from 'lodash';
-import EditWalletFriendPage from '../edit_wallet_friend';
+import {EditWalletFriendPage} from '../edit_wallet_friend';
 
 const C = {
   info : 'settting.info',
@@ -13,7 +13,7 @@ const C = {
   selector: 'page-wallet_setting',
   templateUrl: 'main.html'
 })
-export default class Page extends Base {
+export class WalletSettingPage extends Base {
   private info: any;
   private friends: any[];
   

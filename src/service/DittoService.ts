@@ -1,4 +1,4 @@
-import Base from './Base';
+import {Base} from './Base';
 import * as _ from 'lodash';
 import createClient from 'webdav-fs';
 
@@ -10,12 +10,12 @@ declare var Buffer;
 const config = C.ditto;
 
 let _instance = null;
-export default class Service extends Base {
+export class DittoService extends Base {
     private client;
 
     static get(){
         if(!_instance){
-            _instance = new Service();
+            _instance = new DittoService();
         }
 
         return _instance;

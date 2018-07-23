@@ -4,7 +4,6 @@ import { IonicApp, IonicErrorHandler, IonicModule, Platform } from 'ionic-angula
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { HTTP } from '@ionic-native/http';
@@ -17,18 +16,19 @@ import {QRCodeModule} from 'angularx-qrcode';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 import { MyApp } from './app.component';
-import FirstPage from '../pages/first';
-import HomePage from '../pages/home/home';
-import LoginPage from '../pages/login';
-import DittoListPage from '../pages/ditto_list';
-import ProfilePage from '../pages/profile';
-import DittoDetailPage from '../pages/ditto_detail';
-import WalletInfoPage from '../pages/wallet_info';
-import WalletSettingPage from '../pages/wallet_setting';
-import WalletDetailPage from '../pages/wallet_detail';
-import IpfsInfoPage from '../pages/ipfs_info';
-import FileViewPage from '../pages/file_view';
-import EditWalletFriendPage from '../pages/edit_wallet_friend';
+import {FirstPage} from '../pages/first';
+import {HomePage} from '../pages/home/home';
+import {Base} from '../pages/Base';
+import {LoginPage} from '../pages/login';
+import {DittoListPage} from '../pages/ditto_list';
+import {ProfilePage} from '../pages/profile';
+import {DittoDetailPage} from '../pages/ditto_detail';
+import {WalletInfoPage} from '../pages/wallet_info';
+import {WalletSettingPage} from '../pages/wallet_setting';
+import {WalletDetailPage} from '../pages/wallet_detail';
+import {IpfsInfoPage} from '../pages/ipfs_info';
+import {FileViewPage} from '../pages/file_view';
+import {EditWalletFriendPage} from '../pages/edit_wallet_friend';
 
 
 declare var require;
@@ -40,9 +40,10 @@ const Lang = {
 
 const list = [
   MyApp,
+  Base,
+  LoginPage,
   FirstPage,
   HomePage,
-  LoginPage,
   DittoListPage,
   ProfilePage,
   DittoDetailPage,
@@ -54,6 +55,8 @@ const list = [
   EditWalletFriendPage
 ];
 
+
+
 export const createTranslateLoader = class implements TranslateLoader {
   getTranslation(lang: string): Observable<any> {
     return Observable.of(Lang[lang]);
@@ -61,7 +64,9 @@ export const createTranslateLoader = class implements TranslateLoader {
 }
 
 @NgModule({
-  declarations: list,
+  declarations: [
+    ...list,
+  ],
   imports: [
     BrowserModule,
     HttpModule,

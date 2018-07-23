@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import Base from '../Base';
+import {Base} from '../Base';
 import * as _ from 'lodash';
 import BlobStream from 'blob-stream';
 
@@ -14,7 +14,7 @@ const C = {
   selector: 'page-file_view',
   templateUrl: 'main.html'
 })
-export default class Page extends Base {
+export class FileViewPage extends Base {
   private data:any = {};
   private content:any = null;
 

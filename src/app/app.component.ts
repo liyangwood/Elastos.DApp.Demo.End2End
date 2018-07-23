@@ -4,9 +4,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
 
-import Log from '../utility/Log';
+import {Log} from '../utility/Log';
 
-import FirstPage from '../pages/first';
+import {FirstPage} from '../pages/first';
 
 @Component({
   templateUrl: 'app.html'

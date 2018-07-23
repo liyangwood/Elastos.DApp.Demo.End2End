@@ -12,16 +12,18 @@ import { File } from '@ionic-native/file';
 import { FilePath } from '@ionic-native/file-path';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
-import DIDService from '../service/DIDService';
-import DittoService from '../service/DittoService';
-import WalletService from '../service/WalletService';
-import UserService from '../service/UserService';
-import IpfsService from '../service/IpfsService';
+import {DIDService} from '../service/DIDService';
+import {DittoService} from '../service/DittoService';
+import {WalletService} from '../service/WalletService';
+import {UserService} from '../service/UserService';
+import {IpfsService} from '../service/IpfsService';
 
 import * as _ from 'lodash';
 
-@Component({})
-export default class Page {
+@Component({
+  template: ''
+})
+export class Base {
   private _loading;
   private _loading_show: boolean = false;
   protected didService: DIDService;
@@ -103,12 +105,13 @@ export default class Page {
   }
 
   async ionViewDidLoad(){
-    if(true){
-      await this.ionViewDidLoad_AfterLogin();
-    }
-    else{
-      await this.ionViewDidLoad_BeforeLogin();
-    }
+    await this.ionViewDidLoad_AfterLogin();
+    // if(true){
+      
+    // }
+    // else{
+    //   this.ionViewDidLoad_BeforeLogin();
+    // }
   }
   ionViewWillEnter(){}
   ionViewDidEnter(){}

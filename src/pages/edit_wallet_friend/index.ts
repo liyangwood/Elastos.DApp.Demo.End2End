@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
-import Base from '../Base';
+import {Base} from '../Base';
 import * as _ from 'lodash';
 
 
@@ -9,7 +9,7 @@ import * as _ from 'lodash';
   selector: 'page-edit_wallet_friend',
   templateUrl: 'main.html'
 })
-export default class Page extends Base {
+export class EditWalletFriendPage extends Base {
   private type;
   private param:any;
 

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import Base from '../Base';
+import {Base} from '../Base';
 import * as _ from 'lodash';
-import BlobStream from 'blob-stream';
 
 const C = {
   video : ['mp4'],
@@ -14,7 +13,7 @@ const C = {
   selector: 'page-ditto_detail',
   templateUrl: 'main.html'
 })
-export default class Page extends Base {
+export class DittoDetailPage extends Base {
   private data:any = {};
   private content:any = null;
 

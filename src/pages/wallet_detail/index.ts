@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import Base from '../Base';
+import {Base} from '../Base';
 import {wallet} from '../../utility';
 import * as _ from 'lodash';
 
@@ -12,7 +12,7 @@ const config = C.wallet;
   selector: 'page-wallet_detail',
   templateUrl: 'main.html'
 })
-export default class Page extends Base {
+export class WalletDetailPage extends Base {
   private walletId;
   private address_list = [];
   private qrcode = '';

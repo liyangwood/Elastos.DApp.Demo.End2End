@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import Base from '../Base';
-import DittoDetailPage from '../ditto_detail';
-import Log from '../../utility/Log';
+import {Base} from '../Base';
+import {DittoDetailPage} from '../ditto_detail';
+import {Log} from '../../utility/Log';
 
 @Component({
   selector: 'page-ditto_list',
   templateUrl: 'main.html'
 })
-export default class Page extends Base {
+export class DittoListPage extends Base {
   private list: any[];
   private showUpBtn = false;
   private path: string;
@@ -108,7 +108,7 @@ export default class Page extends Base {
     }
 
     const fs = new FileReader();
-    fs.onload = async (e)=>{
+    fs.onload = async (e:any)=>{
       const buf = e.target.result;
       
       try{

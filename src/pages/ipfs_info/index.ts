@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
-import Base from '../Base';
-import FileViewPage from '../file_view';
-import Log from '../../utility/Log';
-//import * as papaparse from 'papaparse';
+import {Base} from '../Base';
+import {FileViewPage} from '../file_view';
+import {Log} from '../../utility/Log';
 
 
 @Component({
   selector: 'page-ipfs_info',
   templateUrl: 'main.html'
 })
-export default class Page extends Base {
+export class IpfsInfoPage extends Base {
   private list: any[];
   private api: any;
   private path;
@@ -94,7 +93,7 @@ export default class Page extends Base {
     }
 
     const fs = new FileReader();
-    fs.onload = async (e)=>{
+    fs.onload = async (e:any)=>{
       const buf = e.target.result;
       
       try{

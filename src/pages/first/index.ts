@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import Base from '../Base';
+import {Base} from '../Base';
 
-import HomePage from '../home/home';
+import {HomePage} from '../home/home';
 
 @Component({
   selector: 'page-first',
   templateUrl: 'main.html'
 })
-export default class Page extends Base {
+export class FirstPage extends Base {
   goTo(name){
     let select;
     if(name === 'ditto'){

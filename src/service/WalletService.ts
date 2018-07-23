@@ -1,4 +1,4 @@
-import Base from './Base';
+import {Base} from './Base';
 
 declare var cordova: any;
 
@@ -8,7 +8,7 @@ declare var cordova: any;
  * WalletManager.ts -> Wallet.js -> wallet.java -> WalletManager.java
  */
 let _instance = null;
-export default class WalletService extends Base {
+export class WalletService extends Base {
 
   static get(isCordova){
     if(!_instance){

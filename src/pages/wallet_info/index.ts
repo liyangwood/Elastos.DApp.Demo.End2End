@@ -2,16 +2,16 @@ import { Component, ViewChild } from '@angular/core';
 import * as _ from 'lodash';
 import {wallet} from '../../utility';
 
-import Base from '../Base';
-import WalletDetailPage from '../wallet_detail';
-import WalletSettingPage from '../wallet_setting';
+import {Base} from '../Base';
+import {WalletDetailPage} from '../wallet_detail';
+import {WalletSettingPage} from '../wallet_setting';
 
 
 @Component({
   selector: 'page-wallet_info',
   templateUrl: 'main.html'
 })
-export default class Page extends Base {
+export class WalletInfoPage extends Base {
   private master_wallet_id = '';
   private wallet_list : any[] = [];
   private wallet_map : any = {};

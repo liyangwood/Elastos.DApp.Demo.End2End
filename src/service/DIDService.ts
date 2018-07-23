@@ -1,13 +1,13 @@
-import Base from './Base';
+import {Base} from './Base';
 import * as _ from 'lodash';
-import WalletService from './WalletService';
+import {WalletService} from './WalletService';
 import C from '../config';
 
 declare var cordova: any;
 
 const config = C.did;
 let _instance = null;
-export default class DIDService extends Base {
+export class DIDService extends Base {
     static get(isCordova){
         if(!_instance){
             _instance = new DIDService();

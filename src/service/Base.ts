@@ -1,5 +1,5 @@
 
-export default class Base {
+export class Base {
     constructor(){
         this._init();
     }

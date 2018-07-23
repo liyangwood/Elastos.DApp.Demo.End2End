@@ -1,4 +1,4 @@
-import Base from './Base';
+import {Base} from './Base';
 import ipfsAPI from 'ipfs-api';
 import C from '../config';
 
@@ -6,7 +6,7 @@ declare var Buffer;
 
 const config = C.ipfs;
 
-export default class extends Base {
+export class IpfsService extends Base {
   private api;
 
   _init(){
