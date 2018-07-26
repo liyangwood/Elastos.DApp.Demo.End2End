@@ -17,7 +17,11 @@ export class DittoListPage extends Base {
   }
 
   async ionViewDidLoad_AfterLogin(){
-    await this.goToDir(this.path);
+    this.showLoading('init carrier');
+    this.dittoService.start(()=>{
+      this.goToDir(this.path);
+    })
+    // await this.goToDir(this.path);
   }
 
   async goToDir(path){

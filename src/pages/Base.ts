@@ -66,6 +66,7 @@ export class Base {
 
   protected showLoading(str: string = 'fetch data...'): void{
     if(this._loading_show){
+      // this.hideLoading();
       return;
     }
     this._loading = this.loadingCtrl.create({
@@ -92,7 +93,7 @@ export class Base {
   }
   protected buildDittoService(): DittoService{
     if(!this.dittoService){
-      this.dittoService = DittoService.get();
+      this.dittoService = DittoService.get(this._plt.is('cordova'));
     }
     return this.dittoService;
   }

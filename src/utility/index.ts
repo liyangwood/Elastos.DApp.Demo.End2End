@@ -1,5 +1,7 @@
 import config from '../config';
 
+declare var require;
+
 export const wallet = class {
   static balance(balance){
     if(balance !== 0){
@@ -71,4 +73,19 @@ export const wallet = class {
       .replace(/s/ig, String(time.Second))
       .replace(/fff/ig, String(time.Millisecond))
   }
+
+  static getCordovaExec(){
+    // let exec = ()=>{
+    //   console.error('cordova not available');
+    // }
+    // try{
+    //   exec = cordova.exec
+    //   console.log(exec);
+    // }catch(e){
+    //   console.log(e.toString())
+    // }
+
+    // return exec;
+  }
+
 };

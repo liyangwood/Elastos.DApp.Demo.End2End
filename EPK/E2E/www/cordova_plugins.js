@@ -273,6 +273,14 @@ module.exports = [
     ]
   },
   {
+    "id": "Elastos.Carrier",
+    "file": "plugins/ElaCarrier/www/ElaCarrier.js",
+    "pluginId": "ElaCarrier",
+    "clobbers": [
+      "cordova.plugins.ElaCarrier"
+    ]
+  },
+  {
     "id": "phonegap-plugin-barcodescanner.BarcodeScanner",
     "file": "plugins/phonegap-plugin-barcodescanner/www/barcodescanner.js",
     "pluginId": "phonegap-plugin-barcodescanner",

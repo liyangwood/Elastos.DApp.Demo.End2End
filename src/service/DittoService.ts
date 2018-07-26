@@ -1,10 +1,11 @@
 import {Base} from './Base';
 import * as _ from 'lodash';
 import createClient from 'webdav-fs';
+import {wallet} from '../utility';
 
 import C from '../config';
 
-declare var Buffer;
+declare var Buffer, cordova: any;
 
 
 const config = C.ditto;
@@ -12,19 +13,42 @@ const config = C.ditto;
 let _instance = null;
 export class DittoService extends Base {
     private client;
+    private isNative = false;
+    private plugin:any;
 
-    static get(){
+    static get(isCordova){
         if(!_instance){
             _instance = new DittoService();
+            _instance.setIsNative(isCordova);
         }
 
         return _instance;
     }
 
-    _init(){
-        this.client = createClient(encodeURI(config.url), config.username, config.password);
-        console.log('init Ditto Service');
+    setIsNative(flag){
+        if(flag){
+            this.isNative = flag;
+            this.plugin = cordova.plugins.ElaCarrier;
+        }
 
+        console.log('init Ditto Service');
+    }
+
+    start(finish){
+        this.carrier_init((json)=>{
+            // alert(JSON.stringify(json));
+            this.carrierCallback(json, finish);
+        }, config.address, config.secret);
+    }
+
+    carrierCallback(json:any, finish){
+        const key = _.keys(json)[0];
+
+        if(key === 'connected'){
+            console.log(json[key]);
+            this.client = createClient(encodeURI(config.getUrl(json[key])), config.username, config.password);
+            finish && finish();
+        }
     }
 
     _promise(fn, args, endArgs=[]){
@@ -84,5 +108,16 @@ export class DittoService extends Base {
     // delete a folder or file
     async delete(path: string): Promise<any>{
         return await this._promise('unlink', [path]);
+    }
+
+    carrier_init(callback, address, pwd){
+        if(!this.isNative){
+            return callback({
+                'connected' : '192.168.1.105:8000'
+            });
+        }
+        this.plugin.connect([address, pwd], callback, (arg)=>{
+            console.error(arg);
+        })
     }
 }
