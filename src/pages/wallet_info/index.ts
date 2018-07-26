@@ -157,7 +157,7 @@ export class WalletInfoPage extends Base {
           text : 'Confirm',
           handler : (data)=>{
             this.showLoading();
-            this.execute('createSubWallet', data.name, data.pay_password, true, 500).then(async (d)=>{
+            this.execute('createSubWallet', 'ELA', data.pay_password, true, 500).then(async (d)=>{
               this.toast('success');
               await this.init();
               this.hideLoading();

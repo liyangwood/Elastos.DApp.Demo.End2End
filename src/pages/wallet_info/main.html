@@ -18,7 +18,7 @@
   <div *ngIf="!isCreate" class="app-padding">
     <button *ngIf="!master_wallet_id" ion-button block color="secondary" (click)="createNewMasterWallet()">{{'wallet.0002' | translate}}</button>
     <button *ngIf="!master_wallet_id" ion-button block color="secondary" (click)="importWalletWithMnemonic()">{{'wallet.0003' | translate}}</button>
-    <button *ngIf="master_wallet_id" ion-button block color="secondary" (click)="createSubWallet()">{{'wallet.0001' | translate}}</button>
+    <!-- <button *ngIf="master_wallet_id" ion-button block color="secondary" (click)="createSubWallet()">{{'wallet.0001' | translate}}</button> -->
     <button *ngIf="master_wallet_id" ion-button block color="secondary" (click)="goSettingPage()">{{'wallet.0005' | translate}}</button>
 
     <button style="margin-top:120px;" *ngIf="master_wallet_id"  ion-button block color="danger" (click)="removeMasterWallet()">{{'wallet.0004' | translate}}</button>

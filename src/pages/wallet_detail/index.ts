@@ -37,7 +37,7 @@ export class WalletDetailPage extends Base {
 
   resetSend(){
     this.target = {
-      address : 'EU3v9Ui5wxc8VXn41rDsitrRzPygQbuGyP',
+      address : '',
       amount : '',
       memo : '',
       fee : 0
@@ -70,10 +70,15 @@ export class WalletDetailPage extends Base {
     this.qrcode_balance = x.balance/config.SELA;
   }
   scanQRCode(){
-    alert(1);
-    this.scanBarcode((flag, data)=>{
-      console.log(flag, data);
+    this.scanBarcode((flag, data: any)=>{
+      console.log(JSON.stringify(data));
+      if(flag){
+        this.target.address = data.text.replace('elastos:', '');
+      }
+      
     });
+
+    // 刘 涂 抹 仿 邦 纶 强 咨 筛 领 狱 压
   }
 
   async prepearForSend(){
