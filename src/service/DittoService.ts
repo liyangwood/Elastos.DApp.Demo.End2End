@@ -35,10 +35,17 @@ export class DittoService extends Base {
     }
 
     start(finish){
-        this.carrier_init((json)=>{
-            // alert(JSON.stringify(json));
-            this.carrierCallback(json, finish);
-        }, config.address, config.secret);
+        if(config['address']){
+            this.carrier_init((json)=>{
+                // alert(JSON.stringify(json));
+                this.carrierCallback(json, finish);
+            }, config['address'], config.secret);
+        }
+        else{
+            this.client = createClient(encodeURI(config['url']), config.username, config.password);
+            finish();
+        }
+        
     }
 
     carrierCallback(json:any, finish){
