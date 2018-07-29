@@ -1,5 +1,6 @@
 import {Base} from './Base';
 import * as _ from 'lodash';
+import {randomBytes, createHash} from 'crypto-browserify';
 import {WalletService} from './WalletService';
 import C from '../config';
 
@@ -181,6 +182,8 @@ export class DIDService extends Base {
 
 
 
-    
+    hash(msg){
+        return createHash('sha256').update(msg).digest('hex');
+    }
     
 }

@@ -17,10 +17,11 @@ export class DittoListPage extends Base {
   }
 
   async ionViewDidLoad_AfterLogin(){
+    const param = this.navParam.data;
     this.showLoading('init carrier');
     this.dittoService.start(()=>{
       this.goToDir(this.path);
-    })
+    }, param);
     // await this.goToDir(this.path);
   }
 
@@ -36,6 +37,7 @@ export class DittoListPage extends Base {
       }
     }catch(e){
       this.warning(e);
+      this.navCtrl.pop();
     }
     
     

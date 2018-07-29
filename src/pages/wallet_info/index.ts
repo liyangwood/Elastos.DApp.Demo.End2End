@@ -25,6 +25,8 @@ export class WalletInfoPage extends Base {
     pay_password : ''
   };
 
+  private idchain_exist = false;
+
   _init(){
     this.execute = this.wallet_execute;
   }
@@ -94,7 +96,12 @@ export class WalletInfoPage extends Base {
       return;
     }
 
+    
+
     const sub = await this.wallet_execute('getAllSubWallets');
+    if(_.includes(_.values(sub), 'IdChain')){
+      this.idchain_exist = true;
+    }
     this.wallet_list = _.map(_.values(sub), (address)=>{
       const tmp = {
         address,
@@ -140,10 +147,6 @@ export class WalletInfoPage extends Base {
       title : 'Create sub wallet',
       inputs : [
         {
-          name : 'name',
-          placeholder : 'Name'
-        },
-        {
           name : 'pay_password',
           placeholder : 'Pay Password'
         }
@@ -157,7 +160,7 @@ export class WalletInfoPage extends Base {
           text : 'Confirm',
           handler : (data)=>{
             this.showLoading();
-            this.execute('createSubWallet', 'ELA', data.pay_password, true, 500).then(async (d)=>{
+            this.execute('createSubWallet', 'IdChain', data.pay_password, true, 500).then(async (d)=>{
               this.toast('success');
               await this.init();
               this.hideLoading();

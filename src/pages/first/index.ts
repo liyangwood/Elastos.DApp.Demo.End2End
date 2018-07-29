@@ -26,16 +26,37 @@ export class FirstPage extends Base {
   async test(){
     let x:any = null;
     const p:any = {};
-    const msg = {
+    const pwd = '12345678';
+    const data = {
       name : 'jacky'
+      // DataHash : 'slkfjdlsjflsjfdsldf',
+      // Sign : 'lsjdflsjfldsfjlsfsfds',
+      // Proof : 'lsdjflksjf'
     };
+    await this.wallet_execute('getAllSubWallets');
     x = await this.wallet_execute('createDID', '12345678');
     const did = x.didname;
-    
+
+    x = await this.wallet_execute('didSign', did, JSON.stringify(data), pwd);
+    p.sign = x.value;
     // rs = await this.wallet_execute('registerIdListener', did);
+
+    const msg = {
+      // data,
+      Id: did,
+      Path: '',
+      Proof : '',
+      DataHash : this.didService.hash(JSON.stringify(data)),
+      Sign : p.sign
+    };
 
     x = await this.wallet_execute('didGenerateProgram', did, JSON.stringify(msg), '12345678');
     p.json = x.value;
+
+    x = await this.wallet_execute('createIdTransaction', 'IdChain', '', msg, p.json, '', '');
+    p.transcation = x['json'].toString()
+    x = await this.wallet_execute('calculateTransactionFee', 'IdChain', p.transcation, 10000);
+
   }
 
 
@@ -45,7 +66,10 @@ export class FirstPage extends Base {
     //this.showLoading();
     const p:any = {};
     const msg = {
-      name : 'jacky'
+      name : 'jacky',
+      DataHash : 'slkfjdlsjflsjfdsldf',
+      Sign : 'lsjdflsjfldsfjlsfsfds',
+      Proof : 'lsdjflksjf'
     };
     await this.wallet_execute('getSupportedChains');
     const did = await this.didService.getDidName();

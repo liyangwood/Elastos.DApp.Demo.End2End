@@ -8,7 +8,7 @@ import C from '../config';
 declare var Buffer, cordova: any;
 
 
-const config = C.ditto;
+const config: any = C.ditto;
 
 let _instance = null;
 export class DittoService extends Base {
@@ -34,15 +34,18 @@ export class DittoService extends Base {
         console.log('init Ditto Service');
     }
 
-    start(finish){
-        if(config['address']){
+    start(finish, opts:any={}){
+        const address = opts.address || config.address || null;
+        const username = opts.username || config.username;
+        const password = opts.password || config.passowrd;
+        if(address){
             this.carrier_init((json)=>{
                 // alert(JSON.stringify(json));
                 this.carrierCallback(json, finish);
-            }, config['address'], config.secret);
+            }, address, config.secret);
         }
         else{
-            this.client = createClient(encodeURI(config['url']), config.username, config.password);
+            this.client = createClient(encodeURI(config['url']), username, password);
             finish();
         }
         
