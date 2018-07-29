@@ -24,72 +24,61 @@ export class FirstPage extends Base {
   }
 
   async test(){
-    let x:any = null;
-    const p:any = {};
-    const pwd = '12345678';
-    const data = {
-      name : 'jacky'
-      // DataHash : 'slkfjdlsjflsjfdsldf',
-      // Sign : 'lsjdflsjfldsfjlsfsfds',
-      // Proof : 'lsdjflksjf'
-    };
-    await this.wallet_execute('getAllSubWallets');
-    x = await this.wallet_execute('createDID', '12345678');
-    const did = x.didname;
+    // let x:any = null;
+    // const p:any = {};
+    // const pwd = '12345678';
+    // const data = {
+    //   fullName:'jacky',
+    //   identityNumber:'410426198811151012'
+    // };
+    // const did = await this.didService.getDidName();
 
-    x = await this.wallet_execute('didSign', did, JSON.stringify(data), pwd);
-    p.sign = x.value;
-    // rs = await this.wallet_execute('registerIdListener', did);
+    // x = await this.wallet_execute('didSign', did, JSON.stringify(data), pwd);
+    // p.sign = x.value;
+    // // rs = await this.wallet_execute('registerIdListener', did);
 
-    const msg = {
-      // data,
-      Id: did,
-      Path: '',
-      Proof : '',
-      DataHash : this.didService.hash(JSON.stringify(data)),
-      Sign : p.sign
-    };
+    // const msg = {
+    //   data,
+    //   Id: did,
+    //   Path: 'xxxx',
+    //   Proof : '',
+    //   DataHash : this.didService.hash(JSON.stringify(data)),
+    //   Sign : p.sign
+    // };
 
-    x = await this.wallet_execute('didGenerateProgram', did, JSON.stringify(msg), '12345678');
-    p.json = x.value;
+    // x = await this.wallet_execute('didGenerateProgram', did, JSON.stringify(msg), '12345678');
+    // p.json = x.value;
 
-    x = await this.wallet_execute('createIdTransaction', 'IdChain', '', msg, p.json, '', '');
-    p.transcation = x['json'].toString()
-    x = await this.wallet_execute('calculateTransactionFee', 'IdChain', p.transcation, 10000);
+    // x = await this.wallet_execute('createIdTransaction', 'IdChain', '', msg, p.json, '', '');
+    // p.transcation = x['json'].toString()
+    // x = await this.wallet_execute('calculateTransactionFee', 'IdChain', p.transcation, 10000);
+    // p.fee = x.fee;
+    // x = await this.wallet_execute('sendRawTransaction', 'IdChain', p.transcation, p.fee, '12345678');
 
+    // this.walletService.registerIdListener('IdChain', (d)=>{
+    //   console.log(d);
+    //   alert(JSON.stringify(d));
+    // });
   }
 
+  async ionViewDidLoad_AfterLogin(){
+    // await this.wallet_execute('getAllMasterWallets');
+    // await this.wallet_execute('getAllSubWallets');
+  }
 
   async test1(){
-    const chain = 'IdChain';
 
-    //this.showLoading();
-    const p:any = {};
-    const msg = {
-      name : 'jacky',
-      DataHash : 'slkfjdlsjflsjfdsldf',
-      Sign : 'lsjdflsjfldsfjlsfsfds',
-      Proof : 'lsdjflksjf'
-    };
-    await this.wallet_execute('getSupportedChains');
-    const did = await this.didService.getDidName();
-
-    let x:any = null;
+    // await this.wallet_execute('getDIDList');
+    // const did = await this.didService.getDidName();
     
-    x = await this.wallet_execute('createSubWallet', chain, '12345678', false, 0);
-    x = await this.wallet_execute('createAddress', chain);
-    p.fromAddress = x.address;
 
-    x = await this.wallet_execute('didGenerateProgram', did, JSON.stringify(msg), '12345678');
-    p.json = x.value;
+    // await this.wallet_execute('getDIDList');
+    // await this.wallet_execute('didGetAllKeys', did, 0, 100);
+    // await this.wallet_execute('didGetHistoryValue', did, 'Id')
+    // await this.wallet_execute('didGetHistoryValue', did, 'Path')
+    // await this.wallet_execute('didGetHistoryValue', did, 'DataHash')
+    // await this.wallet_execute('didGetHistoryValue', did, 'PayLoad')
 
-    
-    x = await this.wallet_execute('createIdTransaction', chain, '', msg, p.json, 'memo', 'remark');
-    p.rawTransaction = x['json'].toString();
-
-    x = await this.wallet_execute('calculateTransactionFee', chain, p.rawTransaction, 10000);
-    p.fee = x.fee;
-
-    await this.wallet_execute('didGetPublicKey', did);
+ 
   }
 }

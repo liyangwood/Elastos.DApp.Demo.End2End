@@ -4,7 +4,8 @@ import {wallet} from '../../utility';
 
 import {Base} from '../Base';
 import {WalletDetailPage} from '../wallet_detail';
-import {WalletSettingPage} from '../wallet_setting';
+import {WalletIdChainPage} from '../wallet_idchain';
+import {WalletDidListPage} from '../wallet_did_list';
 
 
 @Component({
@@ -68,19 +69,19 @@ export class WalletInfoPage extends Base {
     this.showLoading();
     this.walletService.importWalletWithMnemonic('Wallet-Mnemonic', mem, '12345678', '12345678', 'english', async (data)=>{
       if(data === 'OK'){
-        this.toast('success');
-        await this.init();
+        await this.createSubWallet('12345678');
+        // this.toast('success');
+        // await this.init();
       }
       else{
         this.warning(JSON.stringify(data));
+        this.hideLoading();
       }
-      this.hideLoading();
+      
     })
 
     // password : qweasd123
     // tenant parent skill hurry canal then actual census large giraffe flush shrug
-
-    // 摩 奖 符 似 壁 敏 脆 稿 昏 失 仓 裂
   }
 
   async ionViewDidEnter(){
@@ -124,14 +125,20 @@ export class WalletInfoPage extends Base {
   // }
 
   goDetailPage(item){
+    if(item.address === 'IdChain'){
+      this.navCtrl.push(WalletIdChainPage);
+
+      return false;
+    }
     this.navCtrl.push(WalletDetailPage, {
       walletId : item.address,
       balance : item.balance
     });
+
   }
 
   goSettingPage(){
-    this.navCtrl.push(WalletSettingPage);
+    this.navCtrl.push(WalletDidListPage);
   }
 
   private normalizeMnemonic(words: string): string {
@@ -142,37 +149,46 @@ export class WalletInfoPage extends Base {
     return wordList.join(isJA ? '\u3000' : ' ');
   }  
 
-  async createSubWallet(){
-    const alert = this.alertCtrl.create({
-      title : 'Create sub wallet',
-      inputs : [
-        {
-          name : 'pay_password',
-          placeholder : 'Pay Password'
-        }
-      ],
-      buttons : [
-        {
-          text : 'Cancel',
-          role : 'cancel'
-        },
-        {
-          text : 'Confirm',
-          handler : (data)=>{
-            this.showLoading();
-            this.execute('createSubWallet', 'IdChain', data.pay_password, true, 500).then(async (d)=>{
-              this.toast('success');
-              await this.init();
-              this.hideLoading();
-            }).catch((e)=>{
-              this.warning(e);
-              this.hideLoading();
-            });
-          }
-        }
-      ]
+  async createSubWallet(pwd){
+    this.execute('recoverSubWallet', 'IdChain', pwd, true, 500, 1000).then(async (d)=>{
+      this.toast('success');
+      await this.init();
+      this.hideLoading();
+    }).catch((e)=>{
+      this.warning(e);
+      this.hideLoading();
     });
-    alert.present();
+    // const alert = this.alertCtrl.create({
+    //   title : 'Create sub wallet',
+    //   inputs : [
+    //     {
+    //       name : 'pay_password',
+    //       placeholder : 'Pay Password'
+    //     }
+    //   ],
+    //   buttons : [
+    //     {
+    //       text : 'Cancel',
+    //       role : 'cancel'
+    //     },
+    //     {
+    //       text : 'Confirm',
+    //       handler : (data)=>{
+    //         this.showLoading();
+    //         this.execute('recoverSubWallet', 'IdChain', data.pay_password, true, 500, 1000).then(async (d)=>{
+    //           this.didService.removeDidName();
+    //           this.toast('success');
+    //           await this.init();
+    //           this.hideLoading();
+    //         }).catch((e)=>{
+    //           this.warning(e);
+    //           this.hideLoading();
+    //         });
+    //       }
+    //     }
+    //   ]
+    // });
+    // alert.present();
     
   }
 
@@ -206,14 +222,15 @@ export class WalletInfoPage extends Base {
     this.showLoading();
     try{
       await this.execute('createMasterWallet', 'Ela Wallet', this.memo.join(' '), this.create_master_param.phrase_password, this.create_master_param.pay_password, 'english');
-      this.toast('success');
+      await this.createSubWallet(this.create_master_param.pay_password);
+      // this.toast('success');
       this.isCreate = false;
-      await this.init();
+      // await this.init();
     }catch(e){
       this.warning(e);
     }
     
-    this.hideLoading();
+    // this.hideLoading();
   }
 
   async removeMasterWallet(){
@@ -224,11 +241,20 @@ export class WalletInfoPage extends Base {
       this.wallet_list = [];
       this.wallet_map = {};
       this.master_wallet_id = '';
+      this.idchain_exist = false;
     }catch(e){
       this.warning(e);
     }
     this.hideLoading();
     
+  }
+
+  async rechareToIdChain(){
+    
+  }
+
+  async withdrawFromIdChain(){
+
   }
 
 }

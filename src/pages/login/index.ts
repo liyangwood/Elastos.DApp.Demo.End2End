@@ -63,30 +63,11 @@ export class LoginPage extends Base {
   }
 
   async testDID(){
-    await this.didService.test();
+    
   }
 
   async signup(){
-    const data = this.signup_param;
-    const key = data.username;
-
-    if(!data.username || !data.password || !data.nickname){
-      this.warning('invalid param');
-      return false;
-    }
-
-    this.showLoading();
-    const xd: any = this.didService.getData(key);
-    if(xd.username){
-      this.warning('username is exist');
-      this.hideLoading();
-      return false;
-    }
-    await this.didService.saveData(key, data);
-
-    this.hideLoading();
-    this.toast('success');
-    this.main = 'sign_in';
+    
   }
 
 }

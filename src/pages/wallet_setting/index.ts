@@ -16,23 +16,26 @@ const C = {
 export class WalletSettingPage extends Base {
   private info: any;
   private friends: any[];
+  private did;
   
   _init(){
     this.info = {
       nickName : ''
     };
     this.friends = [];
+  
+    this.did = this.navParam.get('did');
   }
 
   async ionViewDidLoad_AfterLogin(){
     this.showLoading();
 
-    const info = await this.didService.getData(C.info);
+    const info = await this.didService.getData(this.did, C.info);
     if(info && info.nickName){
       this.info.nickName = info.nickName;
     }
 
-    const list = await this.didService.getData(C.friends);
+    const list = await this.didService.getData(this.did, C.friends);
     if(list){
       this.friends = list;
     }
@@ -65,7 +68,7 @@ export class WalletSettingPage extends Base {
             }
 
             this.showLoading();
-            this.didService.saveData(C.info, info).then(()=>{
+            this.didService.saveData(this.did, C.info, info).then(()=>{
               this.hideLoading();
               this.info.nickName = data.name;
             }).catch((e)=>{
@@ -98,11 +101,11 @@ export class WalletSettingPage extends Base {
       }
       if(data.type === 'add'){
         this.friends.push(data.param);
-        await this.didService.saveData(C.friends, this.friends);
+        await this.didService.saveData(this.did, C.friends, this.friends);
       }
       else if(data.type === 'edit'){
         this.friends[index] = data.param;
-        await this.didService.saveData(C.friends, this.friends);
+        await this.didService.saveData(this.did, C.friends, this.friends);
       }
     });
     modal.present();

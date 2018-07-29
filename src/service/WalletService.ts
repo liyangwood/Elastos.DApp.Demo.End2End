@@ -265,7 +265,7 @@ export class WalletService extends Base {
       return Fun({
         'AAA': 'AAA',
         'BBB': 'BBB',
-        'CCC': 'CCC'
+        'IdChain': 'IdChain'
       });
     }
     this.wallet.getAllSubWallets([],Fun,this.errorFun);
@@ -342,16 +342,22 @@ export class WalletService extends Base {
   }  
 
   createDepositTransaction(chainId:string,fromAddress:string,toAddress:string,amount:number
-                           ,sidechainAccounts:string,sidechainAmounts:string,sidechainIndex:string,fee:number,memo:string,remark:string,Fun){
-    this.wallet.createDepositTransaction([chainId,fromAddress,toAddress,amount,sidechainAccounts,sidechainAmounts,sidechainIndex,fee,memo,remark],Fun,this.errorFun);
+    ,sidechainAccounts:string,sidechainAmounts:string,sidechainIndex:string,memo:string,remark:string,Fun){
+    this.wallet.createDepositTransaction([chainId,fromAddress,toAddress,amount,sidechainAccounts,sidechainAmounts,sidechainIndex,memo,remark],Fun,this.errorFun);
   }
 
   createWithdrawTransaction(chainId:string,fromAddress:string,toAddress:string,amount:number
-                           ,mainchainAccounts:string,mainchainAmounts:string,mainchainIndexs:string,fee:number,memo:string,remark:string,Fun){
-    this.wallet.createWithdrawTransaction([chainId,fromAddress,toAddress,amount,mainchainAccounts,mainchainAmounts,mainchainIndexs,fee,memo,remark],Fun,this.errorFun);
+    ,mainchainAccounts:string,mainchainAmounts:string,mainchainIndexs:string,memo:string,remark:string,Fun){
+    this.wallet.createWithdrawTransaction([chainId,fromAddress,toAddress,amount,mainchainAccounts,mainchainAmounts,mainchainIndexs,memo,remark],Fun,this.errorFun);
   }
 
   getGenesisAddress(chainId:string,Fun){
+    if(chainId === 'ELA'){
+      return Fun('XKUh4GLhFJiqAMTF6HyWQrV9pK9HcGUdfJ');
+    }
+    if(chainId === 'IdChain'){
+      return Fun('1111111111111111111114oLvT2');
+    }
     this.wallet.getGenesisAddress([chainId],Fun,this.errorFun);
   }
 

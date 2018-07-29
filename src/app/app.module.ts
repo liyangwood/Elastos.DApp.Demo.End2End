@@ -30,7 +30,8 @@ import {IpfsInfoPage} from '../pages/ipfs_info';
 import {FileViewPage} from '../pages/file_view';
 import {EditWalletFriendPage} from '../pages/edit_wallet_friend';
 import {DittoConfigPage} from '../pages/ditto_config';
-
+import {WalletIdChainPage} from '../pages/wallet_idchain';
+import {WalletDidListPage} from '../pages/wallet_did_list';
 
 declare var require;
 
@@ -54,7 +55,9 @@ const list = [
   FileViewPage,
   WalletDetailPage,
   EditWalletFriendPage,
-  DittoConfigPage
+  DittoConfigPage,
+  WalletIdChainPage,
+  WalletDidListPage
 ];
 
 
