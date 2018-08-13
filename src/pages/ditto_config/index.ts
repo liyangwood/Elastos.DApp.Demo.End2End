@@ -36,6 +36,11 @@ export class DittoConfigPage extends Base {
       return false;
     }
 
+    if(!this.param.address){
+      this.warning('please scan server qrcode to input address');
+      return false;
+    }
+
     this.navCtrl.push(DittoListPage, this.param);
   }
 

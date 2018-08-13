@@ -67,6 +67,7 @@ export class DittoDetailPage extends Base {
       }
       
     }
+    
     this.hideLoading();
   }
 
@@ -75,5 +76,6 @@ export class DittoDetailPage extends Base {
     const blob = new Blob([buffer]);
     const url = URL.createObjectURL(blob);
     this.content = this.sanitize(url);
+    console.log(JSON.stringify(this.content));
   }
 }

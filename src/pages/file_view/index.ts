@@ -62,6 +62,7 @@ export class FileViewPage extends Base {
       const buffer = await this.ipfsService.getFileBuffer(data.hash);
       this.content = buffer.toString('utf8');
     }
+    console.log(this.content);
     this.hideLoading();
   }
 
