@@ -13,11 +13,11 @@ export class FirstPage extends Base {
     if(name === 'ditto'){
       select = 0;
     }
-    else if(name === 'ipfs'){
-      select = 1;
-    }
+    // else if(name === 'ipfs'){
+    //   select = 1;
+    // }
     else if(name === 'wallet'){
-      select = 2;
+      select = 1;
     }
 
     this.navCtrl.push(HomePage, {select});
